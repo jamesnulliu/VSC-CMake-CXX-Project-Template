@@ -19,4 +19,7 @@ target_link_libraries(
     CUDA::cublas
 )
 
+# Sperate compilation for CUDA files
+# set_target_properties(${LIB_NAME} PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+
 install_libraries(${LIB_NAME} ${PROJECT_NAMESPACE} ${LIB_NAME})
