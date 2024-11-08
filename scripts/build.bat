@@ -7,7 +7,7 @@ set "BUILD_SHARED_LIBS=OFF"
 set "BUILD_CUDA_EXAMPLES=OFF"
 
 @REM [NOTE] Change the path to your Visual Studio 2022 installation
-set "VS2022_PATH=C:\Program Files\Microsoft Visual Studio\2022\Community"
+set "VS2022_PATH=%ProgramFiles%\Microsoft Visual Studio\2022\Community"
 if not exist "%VS2022_PATH%" (
     echo Visual Studio 2022 not found at: %VS2022_PATH%
     exit /b 1
