@@ -4,9 +4,9 @@
 
 #include <cuda_runtime.h>
 
+#include "vsc-cpp-template/cuda/logging.cuh"
 #include "vsc-cpp-template/math/vec_add.hpp"
 #include "vsc-cpp-template/utils/address.hpp"
-#include "vsc-cpp-template/cuda/logging.cuh"
 
 namespace vsc_cpp_template::cuda
 {
