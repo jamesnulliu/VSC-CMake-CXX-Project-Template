@@ -1,3 +1,16 @@
+# ==================================================================================================
+# @file logging.cmake
+# @brief Compiler configurations for cuda.
+#
+# @note This file shoule NEVER include any other file (to avoid circular dependencies).
+# @note Several parameters SHOULD be set BEFORE including this file:
+#         - `LOG_PREFIX`: Prefix for logging. Default: "Change Me".
+# ==================================================================================================
+
+if(NOT DEFINED LOG_PREFIX)
+    set(LOG_PREFIX "Change Me")
+endif()
+
 string(ASCII 27 Esc)
 
 set(LOG_RED "${Esc}[0;31m")
@@ -9,9 +22,8 @@ set(LOG_CYAN "${Esc}[0;36m")
 set(LOG_WHITE "${Esc}[0;37m")
 set(LOG_RESET "${Esc}[m")
 
+# Just for fun
 set(LOG_CAT "${LOG_PURPLE}ᓚᘏᗢ${LOG_RESET}")
-
-set(LOG_PREFIX "vsc-cpp-template")
 
 function(log_info msg)
     message(STATUS "[${LOG_PREFIX}|${LOG_GREEN}INFO${LOG_RESET}] >>> ${msg}")

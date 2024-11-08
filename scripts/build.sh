@@ -1,6 +1,18 @@
-BuildType=$1
+# Env Variables: CXX, NVCC_CCBIN
+
+BUILD_TYPE=$1
+CXX_STANDARD=20
+CUDA_STANDARD=20
+BUILD_SHARED_LIBS=OFF
+BUILD_CUDA_EXAMPLES=ON
 
 cmake -G Ninja -S . -B ./build \
-    -DCMAKE_BUILD_TYPE=$BuildType  
+    -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
+    -DCMAKE_CXX_STANDARD=$CXX_STANDARD \
+    -DCMAKE_CUDA_STANDARD=$CUDA_STANDARD \
+    -DBUILD_SHARED_LIBS=$BUILD_SHARED_LIBS \
+    -DBUILD_CUDA_EXAMPLES=$BUILD_CUDA_EXAMPLES
 
 cmake --build ./build -j $(nproc)
+
+cmake --install ./build --prefix ./build/install

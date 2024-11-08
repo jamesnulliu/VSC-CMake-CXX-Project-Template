@@ -1,9 +1,10 @@
 include(${PROJECT_SOURCE_DIR}/cmake/utils/logging.cmake)
+include(${PROJECT_SOURCE_DIR}/cmake/utils/variables.cmake)
 
+
+# Run python command and get result, output and error
 function(run_python PY_COMMAND PY_RESULT PY_OUTPUT PY_ERROR)
-    if (NOT DEFINED PYTHON_EXECUTABLE)
-        set(PYTHON_EXECUTABLE "python")
-    endif()
+    set_default_values(PYTHON_EXECUTABLE "python")
     execute_process(
         COMMAND ${PYTHON_EXECUTABLE} -c "${PY_COMMAND}"
         RESULT_VARIABLE _PY_RESULT

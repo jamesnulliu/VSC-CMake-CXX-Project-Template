@@ -3,6 +3,5 @@
         "llvm-vs-code-extensions.vscode-clangd",  // clangd
         "twxs.cmake",  // cmake
         "ms-vscode.cpptools",  // C/C++
-
     ]
 }

@@ -4,9 +4,9 @@ include(CMakePackageConfigHelpers)
 # ==============================================================================
 # @breif Install target libraries
 function(install_libraries LIB_COMPONENT LIB_NAMESPACE LIB_LIST)
-    log_info("Install libraries...")
+    log_info("Libraries to install:")
     log_info("|- Component: ${LIB_COMPONENT}")
-    log_info("|- Namespace: ${LIB_NAMESPACE}::")
+    log_info("|- Namespace: ${LIB_NAMESPACE}")
     log_info("|- Library Targets: [ ${LIB_LIST} ]")
 
     # Install libraries
@@ -32,7 +32,7 @@ function(install_libraries LIB_COMPONENT LIB_NAMESPACE LIB_LIST)
         EXPORT ${LIB_COMPONENT}Targets
         COMPONENT ${LIB_COMPONENT}
         FILE ${LIB_COMPONENT}Targets.cmake
-        NAMESPACE ${LIB_NAMESPACE}::
+        NAMESPACE ${LIB_NAMESPACE}
         DESTINATION lib/cmake/${LIB_COMPONENT}
     )
 

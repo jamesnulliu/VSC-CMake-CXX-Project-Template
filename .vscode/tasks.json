@@ -7,7 +7,7 @@
             "command": "bash",
             "args": [
                 "${workspaceFolder}/scripts/build.sh",
-                "Debug"
+                "Debug",
             ],
             "group": "build",
             "problemMatcher": []

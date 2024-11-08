@@ -2,14 +2,87 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Launch: [Linux][Debug|GDB]",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/test/test",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [
+                {
+                    "name": "CXX",
+                    "value": "g++"
+                },
+                {
+                    "name": "PATH",
+                    "value": "${env:PATH}:${workspaceFolder}/build/install/bin"
+                },
+                {
+                    "name": "LD_LIBRARY_PATH",
+                    "value": "${workspaceFolder}/build/install/lib"
+                }
+            ],
+            "externalConsole": false,
+            "preLaunchTask": "Task: [Windows][Build|Debug]",
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "miDebuggerPath": "gdb"
+        },
+        {
+            "name": "Launch: [Linux][Debug|LLDB]",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/test/test",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [
+                {
+                    "name": "CXX",
+                    "value": "clang++"
+                },
+                {
+                    "name": "PATH",
+                    "value": "${env:PATH}:${workspaceFolder}/build/install/bin"
+                },
+                {
+                    "name": "LD_LIBRARY_PATH",
+                    "value": "${workspaceFolder}/build/install/lib"
+                }
+            ],
+            "externalConsole": false,
+            "preLaunchTask": "Task: [Windows][Build|Debug]",
+            "MIMode": "lldb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for lldb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "miDebuggerPath": "lldb"
+        },
+        {
             "name": "Launch: [Windows][Debug|VSDB]",
             "type": "cppvsdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/test/test.exe",
             "args": [],
-            "stopAtEntry": true,
+            "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
-            "environment": [],
+            "environment": [
+                {
+                    "name": "PATH",
+                    "value": "${env:PATH};${workspaceFolder}/build/install/bin"
+                }
+            ],
             "externalConsole": false,
             "preLaunchTask": "Task: [Windows][Build|Debug]",
         },

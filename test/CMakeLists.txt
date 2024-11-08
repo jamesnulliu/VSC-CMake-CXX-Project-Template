@@ -8,5 +8,14 @@ add_executable(${TARGET_NAME} ${CXX_SOURCES} ${CUDA_SOURCES})
 target_link_libraries(
     ${TARGET_NAME} 
     PRIVATE 
-    ${PROJECT_NAMESPACE}::templatelib
+    # @see "lib/cpu/CMakeLists.txt"
+    ${PROJECT_NAMESPACE}templateCpuLib
+    # @see "lib/cuda/CMakeLists.txt"
+    $<$<BOOL:${BUILD_CUDA_EXAMPLES}>:${PROJECT_NAMESPACE}templateCudaLib>
+)
+
+target_compile_definitions(
+    ${TARGET_NAME} 
+    PRIVATE 
+    $<$<BOOL:${BUILD_CUDA_EXAMPLES}>:BUILD_CUDA_EXAMPLES>
 )

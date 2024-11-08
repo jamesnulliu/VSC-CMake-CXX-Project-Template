@@ -3,7 +3,7 @@
 # @see "https://cliutils.gitlab.io/modern-cmake/chapters/packages/CUDA.html"
 # 
 # @note Several parameters should be set before including this file:
-#       1. `ENV:CUDA_HOME`: The path to the CUDA toolkit. For example, `/usr/local/cuda`.
+#         - `ENV{CUDA_HOME}`: The path to the CUDA toolkit. For example, `/usr/local/cuda`.
 # ==================================================================================================
 
 # Include "./Logging.cmake"

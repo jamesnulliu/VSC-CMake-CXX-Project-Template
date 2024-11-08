@@ -1,16 +1,14 @@
 #include <cstdint>
-
 #include <cstdio>
-#include <cuda.h>
-#include <cuda_runtime.h>
 #include <tuple>
 
-#include "vsc-cpp-template/vec_add.hpp"
+#include <cuda_runtime.h>
 
-#include "vsc-cpp-template/utils/cuda/address.cuh"
-#include "vsc-cpp-template/utils/cuda/logging.cuh"
+#include "vsc-cpp-template/math/vec_add.hpp"
+#include "vsc-cpp-template/utils/address.hpp"
+#include "vsc-cpp-template/cuda/logging.cuh"
 
-namespace vsc_cpp_template
+namespace vsc_cpp_template::cuda
 {
 
 __global__ void vec_add(float* a, float* b, float* c, int n)
@@ -26,19 +24,19 @@ __global__ void vec_add(float* a, float* b, float* c, int n)
     int i = blockIdx.x * blockDim.x + threadIdx.x;
 
     if (i < n) {
-        log("Thread %d: %f + %f = %f\n", i, a[i], b[i], a[i] + b[i]);
+        dLog("Thread %d: %f + %f = %f\n", i, a[i], b[i], a[i] + b[i]);
         c[i] = a[i] + b[i];
-        auto offset = computeOffset(1, 2, 3, 4, 5, 6);
-        log("Offset: %d\n", offset);
-        log("SM: %d | Warp: %d | Lane: %d | Thread %d - Here!\n",
-            streamingMultiprocessorId, warpId, laneId, threadIndex);
+        auto offset = computeOffset<std::uint32_t>(1, 2, 3, 4, 5, 6);
+        dLog("Offset: %d\n", offset);
+        dLog("SM: %d | Warp: %d | Lane: %d | Thread %d - Here!\n",
+             streamingMultiprocessorId, warpId, laneId, threadIndex);
     }
 }
 
 void launch_vec_add(float* a, float* b, float* c, int n)
 {
-    printf("Hello World from CUDA!\n");
-    printf("Vector size: %d\n", n);
+    ::printf("Hello World from CUDA!\n");
+    ::printf("Vector size: %d\n", n);
     int block_size = 256;
     int grid_size = (n + block_size - 1) / block_size;
 
@@ -64,4 +62,4 @@ void launch_vec_add(float* a, float* b, float* c, int n)
     cudaFree(d_c);
 }
 
-}  // namespace vsc_cpp_template
+}  // namespace vsc_cpp_template::cuda
