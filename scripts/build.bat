@@ -4,8 +4,7 @@ set "BUILD_TYPE=%1"
 set "CXX_STANDARD=20"
 set "CUDA_STANDARD=20"
 set "BUILD_SHARED_LIBS=OFF"
-set "BUILD_CUDA_EXAMPLES=ON"
-
+set "BUILD_CUDA_EXAMPLES=OFF"
 
 @REM [NOTE] Change the path to your Visual Studio 2022 installation
 set "VS2022_PATH=C:\Program Files\Microsoft Visual Studio\2022\Community"

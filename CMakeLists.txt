@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.30)
 
 # Project Name and version
-project(VSC-CPP-TEMPLATE VERSION 0.1.0)
+project(VSC-CPP-TEMPLATE VERSION 1.0.0)
 
 ####################################################################################################
 # [!] All CMake Options and Variables MAY Affect the Build Process

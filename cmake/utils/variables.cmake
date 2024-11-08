@@ -1,7 +1,7 @@
 include(${CMAKE_CURRENT_LIST_DIR}/logging.cmake)
 
 # Set default values for variables;
-# User can override these values by setting them before including this file
+# User can override these values before or after calling this function
 function(set_default_values)
     math(EXPR ARG_COUNT "${ARGC} % 2")
     if(NOT ${ARG_COUNT} EQUAL 0)
