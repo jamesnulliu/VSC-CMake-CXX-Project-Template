@@ -37,9 +37,9 @@ jobs:
     steps:
       - name: Switch to main
         uses: actions/checkout@v4
-        with:
-          ref: main
-          fetch-depth: 0
+        # with:
+        #   ref: main
+        #   fetch-depth: 0
       
       - name: Install Ninja on Linux
         if: runner.os == 'Linux'
@@ -55,7 +55,6 @@ jobs:
         run: |
           echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
           # Should I disable this?
-          echo "ACTIONS_ALLOW_UNSECURE_COMMANDS=true" >> "$GITHUB_ENV"
           echo "CC=${{ matrix.c_compiler }}" >> "$GITHUB_ENV"
           echo "CXX=${{ matrix.cpp_compiler }}" >> "$GITHUB_ENV"
 
@@ -65,12 +64,16 @@ jobs:
         run: >
           bash scripts/build.sh
 
-      - name: Add msbuild to PATH
+      - name: Setup MSBuild on Windows
         if: runner.os == 'Windows'
-        uses: microsoft/setup-msbuild@v1.0.1
+        shell: powershell
+        run: >
+          cmd /K ".\scripts\setup-msbuild.bat";
+          cl --version
 
+      # Keep the cmd /K to keep the shell open
       - name: Configure CMake and Build on Windows
         if: runner.os == 'Windows'
-        shell: cmd
+        shell: powershell
         run: >
-          bash scripts/build.sh
+          cmd /K ".\scripts\build.bat"
