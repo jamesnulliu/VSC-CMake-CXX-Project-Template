@@ -54,7 +54,8 @@ jobs:
         shell: bash
         run: |
           echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
-
+          # Should I disable this?
+          echo "ACTIONS_ALLOW_UNSECURE_COMMANDS=true" >> "$GITHUB_ENV"
           echo "CC=${{ matrix.c_compiler }}" >> "$GITHUB_ENV"
           echo "CXX=${{ matrix.cpp_compiler }}" >> "$GITHUB_ENV"
 
