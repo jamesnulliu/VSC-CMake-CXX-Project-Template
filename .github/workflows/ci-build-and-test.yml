@@ -35,17 +35,21 @@ jobs:
             c_compiler: cl
 
     steps:
-      - name: Switch to main
+      - name: Checkout PR source branch
         uses: actions/checkout@v4
-        # with:
-        #   ref: main
-        #   fetch-depth: 0
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
       
-      - name: Install Ninja on Linux
+      - name: "[Linux] Install Ninja"
         if: runner.os == 'Linux'
         run: sudo apt-get install ninja-build
 
-      - name: Install Ninja on Windows
+      - name: "[Linux|Clang] Install libomp-dev"
+        if: runner.os == 'Linux' && matrix.c_compiler == 'clang'
+        run: sudo apt-get install libomp-dev
+
+      - name: "[Windows] Install Ninja"
         if: runner.os == 'Windows'
         run: choco install ninja
 
@@ -54,26 +58,17 @@ jobs:
         shell: bash
         run: |
           echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
-          # Should I disable this?
           echo "CC=${{ matrix.c_compiler }}" >> "$GITHUB_ENV"
           echo "CXX=${{ matrix.cpp_compiler }}" >> "$GITHUB_ENV"
 
-      - name: Configure CMake and Build on Linux
+      - name: "[Linux] Configure CMake and Build"
         if: runner.os == 'Linux'
         shell: bash
         run: >
           bash scripts/build.sh
 
-      - name: Setup MSBuild on Windows
+      - name: "[Windows] Configure CMake and Build"
         if: runner.os == 'Windows'
         shell: powershell
         run: >
-          cmd /K ".\scripts\setup-msbuild.bat";
-          cl --version
-
-      # Keep the cmd /K to keep the shell open
-      - name: Configure CMake and Build on Windows
-        if: runner.os == 'Windows'
-        shell: powershell
-        run: >
-          cmd /K ".\scripts\build.bat"
+          cmd /c ".\scripts\build.bat"

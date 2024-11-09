@@ -1,5 +1,5 @@
-# vsc-cpp-template
-A Template of C++ Project Managed By CMake and VSCode
+# VSC-CMake-CXX-Project-Template
+A Template of Cross-Platform CMake-C++ Project for Visual Studio Code with Github Actions CI/CD.
 
 ## How to Build
 
@@ -12,7 +12,7 @@ bash scripts/build.sh
 Windows:
 
 ```pwsh
-cmd /c scripts\build.bat
+.\scripts\build.bat
 ```
 
-## How to Contribute
+If you want to build cuda examples, simply add `--cuda-examples` to the build command.
