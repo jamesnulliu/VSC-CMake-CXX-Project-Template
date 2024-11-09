@@ -15,4 +15,4 @@ Windows:
 .\scripts\build.bat
 ```
 
-If you want to build cuda examples, simply add `--cuda-examples` to the build command.
+If you want to build cuda examples, simply add `--build-cuda-examples` to the build command.

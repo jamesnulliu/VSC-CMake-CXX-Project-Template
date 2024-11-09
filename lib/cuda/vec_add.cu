@@ -4,16 +4,17 @@
 
 #include <cuda_runtime.h>
 
-#include "vsc-cpp-template/cuda/logging.cuh"
-#include "vsc-cpp-template/math/vec_add.hpp"
-#include "vsc-cpp-template/utils/address.hpp"
+#include "project-name/cuda/logging.cuh"
+#include "project-name/math/vec_add.hpp"
+#include "project-name/utils/address.hpp"
 
-namespace vsc_cpp_template::cuda
+namespace project_namespace::cuda
 {
 
-__global__ void vec_add(float* a, float* b, float* c, int n)
+__global__ void vec_add(const float* const a, const float* const b,
+                        float* const c, const int n)
 {
-    const int threadIndex = threadIdx.x;
+    const std::uint32_t threadIndex = threadIdx.x;
     std::uint32_t streamingMultiprocessorId;
     asm("mov.u32 %0, %smid;" : "=r"(streamingMultiprocessorId));
     std::uint32_t warpId;
@@ -33,12 +34,13 @@ __global__ void vec_add(float* a, float* b, float* c, int n)
     }
 }
 
-void launch_vec_add(float* a, float* b, float* c, int n)
+void launch_vec_add(const float* const a, const float* const b, float* const c,
+                    const int n)
 {
     ::printf("Hello World from CUDA!\n");
     ::printf("Vector size: %d\n", n);
-    int block_size = 256;
-    int grid_size = (n + block_size - 1) / block_size;
+    std::uint32_t block_size = 256;
+    std::uint32_t grid_size = (n + block_size - 1) / block_size;
 
     // Apply Device Memory
     float *d_a, *d_b, *d_c;
@@ -62,4 +64,4 @@ void launch_vec_add(float* a, float* b, float* c, int n)
     cudaFree(d_c);
 }
 
-}  // namespace vsc_cpp_template::cuda
+}  // namespace project_namespace::cuda

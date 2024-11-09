@@ -5,7 +5,7 @@
 #include <cstdint>
 #include <tuple>
 
-namespace vsc_cpp_template
+namespace project_namespace
 {
 
 /**
@@ -27,14 +27,12 @@ constexpr OffsetT computeOffset(ArgsT... args)
 
 #if __cplusplus >= 202002L
     auto params = std::make_tuple(static_cast<OffsetT>(args)...);
-    [&]<std::size_t... I>(std::index_sequence<I...>)
-    {
+    [&]<std::size_t... I>(std::index_sequence<I...>) {
         ((I < nDims ? (offset += std::get<nDims - 1 - I>(params) * stride,
                        stride *= std::get<nArgs - 1 - I>(params))
                     : 0),
          ...);
-    }
-    (std::make_index_sequence<nDims>{});
+    }(std::make_index_sequence<nDims>{});
 #else
     auto params = std::array{static_cast<OffsetT>(args)...};
     for (std::size_t i = 0; i < nDims; ++i) {
@@ -46,4 +44,4 @@ constexpr OffsetT computeOffset(ArgsT... args)
     return offset;
 }
 
-}  // namespace vsc_cpp_template
+}  // namespace project_namespace

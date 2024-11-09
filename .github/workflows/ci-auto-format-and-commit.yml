@@ -21,12 +21,8 @@ jobs:
       - name: Install clang-format
         run: sudo apt-get install clang-format
 
-      - name: Run clang-format
-        run: | 
-          clang-format -i $(find .  \
-                            -name '*.c' -o -name '*.h'  \
-                            -o -name '*.cpp' -o -name '*.hpp'  \
-                            -o -name '*.cu' -o -name '*.cuh')
+      - name: Run format script
+        run: bash scripts/format.sh
       
       - name: Check for Uncommitted Changes
         id: format_check

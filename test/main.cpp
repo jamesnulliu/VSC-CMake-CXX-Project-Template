@@ -1,11 +1,10 @@
 #include <iostream>
 #include <vector>
 
-#include <vsc-cpp-template/math/vec_add.hpp>
+#include <project-name/math/vec_add.hpp>
 
 int main()
 {
-
     auto printVec = [](const std::vector<float>& vec) {
         for (const auto& v : vec) {
             std::cout << v << ", ";
@@ -22,13 +21,13 @@ int main()
 
     std::cout << __cplusplus << std::endl;
 
-    vsc_cpp_template::cpu::launch_vec_add(a.data(), b.data(), c.data(),
-                                          a.size());
+    project_namespace::cpu::launch_vec_add(a.data(), b.data(), c.data(),
+                                           int(a.size()));
     printVec(c);
 
 #if defined(BUILD_CUDA_EXAMPLES)
-    vsc_cpp_template::cuda::launch_vec_add(a.data(), b.data(), c.data(),
-                                           a.size());
+    project_namespace::cuda::launch_vec_add(a.data(), b.data(), c.data(),
+                                            int(a.size()));
     printVec(c);
 #endif
 

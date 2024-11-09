@@ -16,7 +16,7 @@ while [[ $# -gt 0 ]]; do
             CUDA_STANDARD="${1#*=}" ;;
         --shared)
             BUILD_SHARED_LIBS=ON ;;
-        --cuda-examples)
+        --build-cuda-examples)
             BUILD_CUDA_EXAMPLES=ON ;;
         *)
             # [TODO] Add detailed help message

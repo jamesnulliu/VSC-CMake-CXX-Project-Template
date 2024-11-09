@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.30)
 
 # Project Name and version
-project(VSC-CPP-TEMPLATE VERSION 1.0.0)
+project(VSC-CMAKE-CXX-TEMPLATE VERSION 1.0.0)
 
 ####################################################################################################
 # [!] All CMake Options and Variables MAY Affect the Build Process
@@ -23,12 +23,12 @@ project(VSC-CPP-TEMPLATE VERSION 1.0.0)
 #   - `ENV{PYTHON_EXECUTABLE}`: The path to the Python executable
 # 
 # In "cmake/libraries/cuda.cmake":
-#  - `ENV{CUDA_HOME}`: The path to the CUDA toolkit
+#   - `ENV{CUDA_HOME}`: The path to the CUDA toolkit
 #
 # Others:
-#  - `BUILD_CUDA_EXAMPLES`: Whether to build CUDA examples
-#  - `PROJECT_NAMESPACE`: The namespace for the project
-#  - `BUILD_SHARED_LIBS`: Whether to build shared libraries
+#   - `BUILD_CUDA_EXAMPLES`: Whether to build CUDA examples
+#   - `PROJECT_NAMESPACE`: The namespace for the project
+#   - `BUILD_SHARED_LIBS`: Whether to build shared libraries
 ####################################################################################################
 
 # Utility functions for setting values:
@@ -37,12 +37,13 @@ include(${PROJECT_SOURCE_DIR}/cmake/utils/variables.cmake)
 # @see "./cmake/utils/variables.cmake"
 set_default_values(
     # Whether to build CUDA examples; 
-    # Set to OFF if you don't have CUDA installed
+    # [NOTE] Set to OFF if you don't have CUDA installed
     BUILD_CUDA_EXAMPLES ON
 
-    # Namespace for the project;
+    # CMake project namespace:
     # All the libs should have a alias with this namespace
-    PROJECT_NAMESPACE "vsc-cpp-template::"
+    # [NOTE] Change this to your own namespace
+    PROJECT_NAMESPACE "cmake-project-namespace::"
 )
 
 # Compiler configurations for cpp, e.g., g++, clang++, msvc(cl), etc.
