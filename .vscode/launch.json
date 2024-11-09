@@ -2,7 +2,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Launch: [Linux][Debug|GDB]",
+            "name": "Launch: [Debug|Linux-GDB]",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/test/test",
@@ -14,17 +14,9 @@
                     "name": "CXX",
                     "value": "g++"
                 },
-                {
-                    "name": "PATH",
-                    "value": "${env:PATH}:${workspaceFolder}/build/install/bin"
-                },
-                {
-                    "name": "LD_LIBRARY_PATH",
-                    "value": "${workspaceFolder}/build/install/lib"
-                }
             ],
             "externalConsole": false,
-            "preLaunchTask": "Task: [Windows][Build|Debug]",
+            "preLaunchTask": "Task: [Build|Windows-Debug]",
             "MIMode": "gdb",
             "setupCommands": [
                 {
@@ -36,7 +28,7 @@
             "miDebuggerPath": "gdb"
         },
         {
-            "name": "Launch: [Linux][Debug|LLDB]",
+            "name": "Launch: [Debug|Linux-LLDB]",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/test/test",
@@ -48,17 +40,9 @@
                     "name": "CXX",
                     "value": "clang++"
                 },
-                {
-                    "name": "PATH",
-                    "value": "${env:PATH}:${workspaceFolder}/build/install/bin"
-                },
-                {
-                    "name": "LD_LIBRARY_PATH",
-                    "value": "${workspaceFolder}/build/install/lib"
-                }
             ],
             "externalConsole": false,
-            "preLaunchTask": "Task: [Windows][Build|Debug]",
+            "preLaunchTask": "Task: [Build|Windows-Debug]",
             "MIMode": "lldb",
             "setupCommands": [
                 {
@@ -70,21 +54,16 @@
             "miDebuggerPath": "lldb"
         },
         {
-            "name": "Launch: [Windows][Debug|VSDB]",
+            "name": "Launch: [Debug|Windows-VSDB]",
             "type": "cppvsdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/test/test.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
-            "environment": [
-                {
-                    "name": "PATH",
-                    "value": "${env:PATH};${workspaceFolder}/build/install/bin"
-                }
-            ],
+            "environment": [],
             "externalConsole": false,
-            "preLaunchTask": "Task: [Windows][Build|Debug]",
+            "preLaunchTask": "Task: [Build|Windows-Debug]",
         },
     ]
 }

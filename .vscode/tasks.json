@@ -2,7 +2,7 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Task: [Linux][Build|Debug]",
+            "label": "Task: [Build|Linux-Debug]",
             "type": "shell",
             "command": "bash",
             "args": [
@@ -13,11 +13,11 @@
             "problemMatcher": []
         },
         {
-            "label": "Task: [Windows][Build|Debug]",
+            "label": "Task: [Build|Windows-Debug]",
             "type": "shell",
             "command": "cmd",
             "args": [
-                "/C",
+                "/c",
                 "${workspaceFolder}/scripts/build.bat",
                 "Debug"
             ],
