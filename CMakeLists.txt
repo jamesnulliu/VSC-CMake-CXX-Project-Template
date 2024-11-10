@@ -11,6 +11,7 @@ project(VSC-CMAKE-CXX-TEMPLATE VERSION 1.0.0)
 #   - `LOG_PREFIX`: The prefix for logging messages
 # 
 # In "cmake/compilers/cxx-compiler-configs.cmake":
+#   - `ENV{CC}`: The compiler for C code
 #   - `ENV{CXX}`: The compiler for C++ code
 #   - `CMAKE_CXX_STANDARD`: The standard for C++ code
 #   - `STACK_SIZE`: The stack size for the executable
@@ -38,7 +39,7 @@ include(${PROJECT_SOURCE_DIR}/cmake/utils/variables.cmake)
 set_default_values(
     # Whether to build CUDA examples; 
     # [NOTE] Set to OFF if you don't have CUDA installed
-    BUILD_CUDA_EXAMPLES ON
+    BUILD_CUDA_EXAMPLES OFF
 
     # CMake project namespace:
     # All the libs should have a alias with this namespace
