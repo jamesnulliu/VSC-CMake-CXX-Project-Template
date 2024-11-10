@@ -47,5 +47,5 @@ Diagnostics:
       readability-identifier-naming.MethodCase: lowerCamelCase
 
     Remove: [
-      modernize-use-trailing-return-type,
+      # modernize-use-trailing-return-type,
     ]

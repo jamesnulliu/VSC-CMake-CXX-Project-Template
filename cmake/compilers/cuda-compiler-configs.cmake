@@ -7,7 +7,7 @@
 #         - `CMAKE_CUDA_STANDARD`: CUDA Standard. Default: 20.
 # ==================================================================================================
 
-include(${CMAKE_CURRENT_LIST_DIR}/logging.cmake)
+include(${PROJECT_SOURCE_DIR}/cmake/utils/logging.cmake)
 
 enable_language(CUDA)
 
