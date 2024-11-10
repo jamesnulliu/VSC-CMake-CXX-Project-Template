@@ -4,7 +4,6 @@
 
 #include <cuda_runtime.h>
 
-#include "project-name/cuda/logging.cuh"
 #include "project-name/math/vec_add.hpp"
 #include "project-name/utils/address.hpp"
 
@@ -15,8 +14,8 @@ __global__ void vec_add(const float* const a, const float* const b,
                         float* const c, const int n)
 {
     const std::uint32_t threadIndex = threadIdx.x;
-    std::uint32_t streamingMultiprocessorId;
-    asm("mov.u32 %0, %smid;" : "=r"(streamingMultiprocessorId));
+    std::uint32_t smId;
+    asm("mov.u32 %0, %smid;" : "=r"(smId));
     std::uint32_t warpId;
     asm volatile("mov.u32 %0, %warpid;" : "=r"(warpId));
     std::uint32_t laneId;
@@ -25,12 +24,12 @@ __global__ void vec_add(const float* const a, const float* const b,
     int i = blockIdx.x * blockDim.x + threadIdx.x;
 
     if (i < n) {
-        dLog("Thread %d: %f + %f = %f\n", i, a[i], b[i], a[i] + b[i]);
+        ::printf("Thread %d: %f + %f = %f\n", i, a[i], b[i], a[i] + b[i]);
         c[i] = a[i] + b[i];
         auto offset = computeOffset<std::uint32_t>(1, 2, 3, 4, 5, 6);
-        dLog("Offset: %d\n", offset);
-        dLog("SM: %d | Warp: %d | Lane: %d | Thread %d - Here!\n",
-             streamingMultiprocessorId, warpId, laneId, threadIndex);
+        ::printf("Offset: %d\n", offset);
+        ::printf("SM: %d | Warp: %d | Lane: %d | Thread %d - Here!\n", smId,
+                 warpId, laneId, threadIndex);
     }
 }
 

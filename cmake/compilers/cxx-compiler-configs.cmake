@@ -8,7 +8,7 @@
 #         - `STACK_SIZE`: Stack size for the executable. Default: 1048576 (1MB).
 # ==================================================================================================
 
-include(${CMAKE_CURRENT_LIST_DIR}/logging.cmake)
+include(${PROJECT_SOURCE_DIR}/cmake/utils/logging.cmake)
 
 enable_language(CXX)
 
@@ -25,30 +25,34 @@ endif()
 
 # Compiler flags for MSVC
 if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
-    string(APPEND CMAKE_CXX_FLAGS "/permissive- /Zc:forScope /openmp /Zc:__cplusplus")
+    string(APPEND CMAKE_CXX_FLAGS " /permissive- /Zc:forScope /openmp /Zc:__cplusplus")
     string(APPEND CMAKE_CXX_FLAGS_RELEASE " /O2")
     string(APPEND CMAKE_CXX_FLAGS_DEBUG " /Zi")
     # Set stack size
     string(APPEND CMAKE_EXE_LINKER_FLAGS " /STACK:${STACK_SIZE}")
 # Compiler flags for Clang
 elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-    string(APPEND CMAKE_CXX_FLAGS "-fopenmp -Wall -Wextra -Werror")
+    string(APPEND CMAKE_CXX_FLAGS " -fopenmp -Wall -Wextra -Werror")
     string(APPEND CMAKE_CXX_FLAGS_RELEASE " -O3")
     string(APPEND CMAKE_CXX_FLAGS_DEBUG " -g")
     # Set stack size
-    string(APPEND CMAKE_EXE_LINKER_FLAGS 
-        $<$<PLATFORM_ID:Windows>:-Wl,--stack,${STACK_SIZE}> 
-        $<$<NOT:$<PLATFORM_ID:Windows>>:-Wl,-zstack-size=${STACK_SIZE}>)
+    if (WIN32)
+        string(APPEND CMAKE_EXE_LINKER_FLAGS " -Wl,--stack,${STACK_SIZE}")
+    else()
+        string(APPEND CMAKE_EXE_LINKER_FLAGS " -Wl,-zstack-size=${STACK_SIZE}")
+    endif()
 # Compiler flags for GNU
 elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-    string(APPEND CMAKE_CXX_FLAGS "-fopenmp -Wall -Wextra -Werror")
+    string(APPEND CMAKE_CXX_FLAGS " -fopenmp -Wall -Wextra -Werror")
     string(APPEND CMAKE_CXX_FLAGS_RELEASE " -O3")
     string(APPEND CMAKE_CXX_FLAGS_DEBUG " -g")
     # Set stack size
-    string(APPEND CMAKE_EXE_LINKER_FLAGS 
-        $<$<PLATFORM_ID:Windows>:-Wl,--stack,${STACK_SIZE}> 
-        $<$<NOT:$<PLATFORM_ID:Windows>>:-Wl,-zstack-size=${STACK_SIZE}>)
-# [TODO] @jamesnulliu
+    if (WIN32)
+        string(APPEND CMAKE_EXE_LINKER_FLAGS " -Wl,--stack,${STACK_SIZE}")
+    else()
+        string(APPEND CMAKE_EXE_LINKER_FLAGS " -Wl,-zstack-size=${STACK_SIZE}")
+    endif()
+ ## [TODO] @jamesnulliu
 # |- Add compiler flags for other compilers
 else()
     log_fatal("Unsupported compiler")

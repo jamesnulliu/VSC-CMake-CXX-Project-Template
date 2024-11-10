@@ -18,7 +18,7 @@ namespace project_namespace
  * @example computeOffset(1, 2, 3, 4, 5, 6) -> 3*1 + 2*6 + 1*6*5 = 45
  */
 template <typename OffsetT, typename... ArgsT>
-constexpr OffsetT computeOffset(ArgsT... args)
+constexpr auto computeOffset(ArgsT... args) -> OffsetT
 {
     constexpr std::size_t nArgs = sizeof...(ArgsT);
     constexpr std::size_t nDims = nArgs / 2;
