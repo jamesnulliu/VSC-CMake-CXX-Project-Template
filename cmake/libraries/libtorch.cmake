@@ -1,5 +1,5 @@
 include(${PROJECT_SOURCE_DIR}/cmake/utils/logging.cmake)
-include(${PROJECT_SOURCE_DIR}/cmake/utils/python.cmake)
+include(${PROJECT_SOURCE_DIR}/cmake/utils/run-python.cmake)
 
 set(PY_RESULT)
 set(PY_OUTPUT)

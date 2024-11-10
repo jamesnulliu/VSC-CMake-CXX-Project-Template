@@ -4,7 +4,7 @@
 #
 # @note This file shoule NEVER include any other file (to avoid circular dependencies).
 # @note Several parameters SHOULD be set BEFORE including this file:
-#         - `LOG_PREFIX`: Prefix for logging. Default: "ᓚᘏᗢ".
+#         - `LOG_PREFIX`: Prefix for logging. Default: "LogPrefix".
 # ==================================================================================================
 
 string(ASCII 27 Esc)
@@ -18,11 +18,9 @@ set(LOG_CYAN "${Esc}[0;36m")
 set(LOG_WHITE "${Esc}[0;37m")
 set(LOG_RESET "${Esc}[m")
 
-# Just for fun
-set(LOG_CAT "${LOG_PURPLE}ᓚᘏᗢ${LOG_RESET}")
 
 if(NOT DEFINED LOG_PREFIX)
-    set(LOG_PREFIX "${LOG_CAT}")
+    set(LOG_PREFIX "${LOG_PURPLE}LogPrefix${LOG_RESET}")
 endif()
 
 function(log_info msg)

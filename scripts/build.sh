@@ -1,5 +1,7 @@
 # Env Variables: CXX, NVCC_CCBIN
 
+SOURCE_DIR=.
+BUILD_DIR=./build
 BUILD_TYPE=Release
 CXX_STANDARD=20
 CUDA_STANDARD=20
@@ -8,6 +10,10 @@ BUILD_CUDA_EXAMPLES=OFF
 
 while [[ $# -gt 0 ]]; do
     case $1 in
+        -S|--source-dir)
+            SOURCE_DIR=$2; shift ;;
+        -B|--build-dir)
+            BUILD_DIR=$2; shift ;;
         Release|Debug)
             BUILD_TYPE=$1 ;;
         --stdc++=*)
@@ -25,7 +31,7 @@ while [[ $# -gt 0 ]]; do
     shift
 done
 
-cmake -G Ninja -S . -B ./build \
+cmake -G Ninja -S $SOURCE_DIR -B $BUILD_DIR \
     -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
     -DCMAKE_CXX_STANDARD=$CXX_STANDARD \
     -DCMAKE_CUDA_STANDARD=$CUDA_STANDARD \

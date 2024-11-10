@@ -15,7 +15,7 @@ __global__ void vec_add(const float* const a, const float* const b,
 {
     const std::uint32_t threadIndex = threadIdx.x;
     std::uint32_t smId;
-    asm("mov.u32 %0, %smid;" : "=r"(smId));
+    asm volatile("mov.u32 %0, %smid;" : "=r"(smId));
     std::uint32_t warpId;
     asm volatile("mov.u32 %0, %warpid;" : "=r"(warpId));
     std::uint32_t laneId;
