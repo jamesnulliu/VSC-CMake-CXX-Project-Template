@@ -1,8 +1,7 @@
 include(${PROJECT_SOURCE_DIR}/cmake/utils/logging.cmake)
-include(${PROJECT_SOURCE_DIR}/cmake/utils/variables.cmake)
+include(${PROJECT_SOURCE_DIR}/cmake/utils/common.cmake)
 
-
-# Run python command and get result, output and error
+# @brief Run python command and get result, output and error
 function(run_python PY_COMMAND PY_RESULT PY_OUTPUT PY_ERROR)
     set_default_values(PYTHON_EXECUTABLE "python")
     execute_process(
@@ -14,7 +13,7 @@ function(run_python PY_COMMAND PY_RESULT PY_OUTPUT PY_ERROR)
         ERROR_STRIP_TRAILING_WHITESPACE
     )
     if(NOT _PY_RESULT EQUAL 0)
-        playground_log_fatal("run_python: PY_COMMAND failed:\n${_PY_ERROR}")
+        log_fatal("run_python: PY_COMMAND failed:\nCOMMAND:\n${PY_COMMAND}\nERROR:\n${_PY_ERROR}")
     endif()
     set(${PY_RESULT} "${_PY_RESULT}" PARENT_SCOPE)
     set(${PY_OUTPUT} "${_PY_OUTPUT}" PARENT_SCOPE)

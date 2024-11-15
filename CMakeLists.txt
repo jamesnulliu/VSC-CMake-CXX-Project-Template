@@ -32,8 +32,8 @@ project(VSC-CMAKE-CXX-TEMPLATE VERSION 1.0.0)
 #   - `BUILD_SHARED_LIBS`: Whether to build shared libraries
 ####################################################################################################
 
-# Utility functions for setting values:
-include(${PROJECT_SOURCE_DIR}/cmake/utils/variables.cmake)
+# Common utility functions:
+include(${PROJECT_SOURCE_DIR}/cmake/utils/common.cmake)
 
 # @see "./cmake/utils/variables.cmake"
 set_default_values(

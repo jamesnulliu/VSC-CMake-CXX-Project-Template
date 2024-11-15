@@ -20,7 +20,6 @@ windows_prune_env_path() {
     local new_path=""
 
     # Include only the necessary paths
-    # You may want to add "conda" to the list if you are using Anaconda/Miniconda
     local -a include_paths=("/usr/bin" "cuda" "windows kits" "microsoft visual studio")
     local -a filtered_paths
     for path in "${paths[@]}"; do

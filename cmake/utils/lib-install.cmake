@@ -1,7 +1,6 @@
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
 
-# ==============================================================================
 # @breif Install target libraries
 function(install_libraries LIB_COMPONENT LIB_NAMESPACE LIB_LIST)
     log_info("Libraries to install:")
