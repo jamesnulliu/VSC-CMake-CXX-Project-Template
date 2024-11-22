@@ -25,7 +25,6 @@ project(VSC-CMAKE-CXX-TEMPLATE VERSION 1.0.0)
 #
 # Others:
 #   - `PROJECT_NAMESPACE`: The namespace for the project
-#   - `BUILD_SHARED_LIBS`: Whether to build shared libraries
 ####################################################################################################
 
 # Common utility functions:
@@ -39,9 +38,6 @@ set_default_values(
     PROJECT_NAMESPACE "_template_project_name_::"
 )
 
-# Utility functions for installing libraries:
-include(${PROJECT_SOURCE_DIR}/cmake/utils/lib-install.cmake)
-
 # Compiler configurations for cpp, e.g., g++, clang++, msvc(cl), etc.
 include(${PROJECT_SOURCE_DIR}/cmake/compilers/cxx-compiler-configs.cmake)
 # Compiler configurations for CUDA 
@@ -49,5 +45,4 @@ include(${PROJECT_SOURCE_DIR}/cmake/compilers/cuda-compiler-configs.cmake)
 # Some preparational steps for linking CUDA libraries:
 include(${PROJECT_SOURCE_DIR}/cmake/libraries/libcuda.cmake)
 
-add_subdirectory(${PROJECT_SOURCE_DIR}/lib)
-add_subdirectory(${PROJECT_SOURCE_DIR}/test)
+add_subdirectory(${PROJECT_SOURCE_DIR}/src)
