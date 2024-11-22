@@ -4,9 +4,9 @@ on:
   push:
     branches:
       - main
-  
+
 jobs:
-  clang-format:
+  format:
     runs-on: ubuntu-latest
 
     steps:
