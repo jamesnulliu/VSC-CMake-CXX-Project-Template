@@ -1,6 +1,6 @@
 CompileFlags:
   Add: 
-    - --cuda-path=/path/to/cuda
+    - --cuda-path=<path-to-cuda>
     - --no-cuda-version-check
   Remove:
     - -ccbin

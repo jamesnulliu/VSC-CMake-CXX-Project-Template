@@ -75,7 +75,7 @@ jobs:
           echo "CUDA_HOME=$CUDA_PATH" >> "$GITHUB_ENV"
       
       - name: Gernate Project
-        run: python templates/gen_project.py -n test -t ${{ matrix.project_type }}
+        run: python ./.templates/gen_project.py -n test -t ${{ matrix.project_type }}
 
       - name: "[Linux] Configure CMake and Build"
         if: runner.os == 'Linux'

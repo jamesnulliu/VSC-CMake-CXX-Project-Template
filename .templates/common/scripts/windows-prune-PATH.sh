@@ -3,6 +3,8 @@
 #        can get very long and cause issues with the CMake generator.
 #
 
+set -e  # Exit on error
+
 # Return if not windows
 if [[ "$OSTYPE" != "msys" ]]; then return; fi
 
