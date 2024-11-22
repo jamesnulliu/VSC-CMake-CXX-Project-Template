@@ -1,4 +1,5 @@
 #include <cstdio>
+#include <cstdint>
 
 #include "_template_project_name_/math/vec_add.hpp"
 #include "_template_project_name_/utils/address.hpp"
