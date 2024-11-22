@@ -69,7 +69,12 @@ def main(args):
     ]
 
     for path in paths_to_remove:
-        shutil.rmtree(Path(path), ignore_errors=True)
+        path = Path(path)
+        if path.is_file():
+            path.unlink(missing_ok=True)
+        elif path.is_dir():
+            shutil.rmtree(path, ignore_errors=True)
+
 
     if args.remove_all:
         return
