@@ -1,0 +1,72 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch: [Debug|Linux-GDB]",
+            "type": "cppdbg",
+            "request": "launch",
+            // [NOTE] Change this to path of the executable to debug
+            "program": "${workspaceFolder}/build/src/main",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [
+                {
+                    "name": "CXX",
+                    "value": "g++"
+                },
+            ],
+            "externalConsole": false,
+            "preLaunchTask": "Task: [Build|Windows-Debug]",
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "miDebuggerPath": "gdb"
+        },
+        {
+            "name": "Launch: [Debug|Linux-LLDB]",
+            "type": "cppdbg",
+            "request": "launch",
+            // [NOTE] Change this to path of the executable to debug
+            "program": "${workspaceFolder}/build/src/main",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [
+                {
+                    "name": "CXX",
+                    "value": "clang++"
+                },
+            ],
+            "externalConsole": false,
+            "preLaunchTask": "Task: [Build|Windows-Debug]",
+            "MIMode": "lldb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for lldb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "miDebuggerPath": "lldb"
+        },
+        {
+            "name": "Launch: [Debug|Windows-VSDB]",
+            "type": "cppvsdbg",
+            "request": "launch",
+            // [NOTE] Change this to path of the executable to debug
+            "program": "${workspaceFolder}/build/src/main.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "preLaunchTask": "Task: [Build|Windows-Debug]"
+        },
+    ]
+}

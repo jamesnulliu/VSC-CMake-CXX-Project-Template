@@ -5,6 +5,7 @@
             "name": "Launch: [Debug|Linux-GDB]",
             "type": "cppdbg",
             "request": "launch",
+            // [NOTE] Change this to path of the executable to debug
             "program": "${workspaceFolder}/build/test/test",
             "args": [],
             "stopAtEntry": false,
@@ -31,6 +32,7 @@
             "name": "Launch: [Debug|Linux-LLDB]",
             "type": "cppdbg",
             "request": "launch",
+            // [NOTE] Change this to path of the executable to debug
             "program": "${workspaceFolder}/build/test/test",
             "args": [],
             "stopAtEntry": false,
@@ -57,6 +59,7 @@
             "name": "Launch: [Debug|Windows-VSDB]",
             "type": "cppvsdbg",
             "request": "launch",
+            // [NOTE] Change this to path of the executable to debug
             "program": "${workspaceFolder}/build/test/test.exe",
             "args": [],
             "stopAtEntry": false,

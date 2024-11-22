@@ -9,8 +9,8 @@ import os
 class ProjectType(Enum):
     cxx_exe = 1
     cxx_lib = 2
-    cxx_cuda_exe = 3
-    cxx_cuda_lib = 4
+    cuda_exe = 3
+    cuda_lib = 4
 
 
 def copy_directory_contents(src_dir, dst_dir):
@@ -66,6 +66,9 @@ def main(args):
         "CMakeLists.txt",
         ".clangd",
         ".clang-format",
+        ".vscode/launch.json",
+        ".github/workflows/ci-auto-format-and-commit.yml"
+        ".github/workflows/ci-build-and-test.yml",
     ]
 
     for path in paths_to_remove:
@@ -75,26 +78,25 @@ def main(args):
         elif path.is_dir():
             shutil.rmtree(path, ignore_errors=True)
 
-    if args.remove_all:
+    template_dir = Path("templates")
+
+    if args.reset:
+        copy_directory_contents(template_dir / "reset", ".")
         return
 
-    template_dir = Path("templates")
     project_type = ProjectType(args.project_type).name
     match_pattern = "_template_project_name_"
     project_name = args.project_name
 
-    copy_directory_contents(Path(template_dir, "common"), ".")
-    copy_directory_contents(Path(template_dir, project_type), ".")
-
+    copy_directory_contents(template_dir / "common", ".")
+    copy_directory_contents(template_dir / project_type, ".")
     rename_directory(Path("include", match_pattern), Path("include", project_name))
 
     for directory in ["include", "lib", "test", "src"]:
         if Path(directory).is_dir():
             replace_in_directory(directory, match_pattern, project_name)
-
     if Path("CMakeLists.txt").is_file():
         replace_in_file("CMakeLists.txt", match_pattern, project_name)
-
     if args.project_type in [3, 4]:
         if Path(".clangd").is_file():
             replace_in_file(".clangd", "/path/to/cuda", os.environ.get("CUDA_HOME", ""))
@@ -104,10 +106,9 @@ if __name__ == "__main__":
     parser = ArgumentParser(description="Project type selector")
 
     parser.add_argument(
-        "-rma",
-        "--remove-all",
+        "--reset",
         action="store_true",
-        help="Remove generated files and directories and then exist.",
+        help="Reset template, remove all generated files",
     )
 
     parser.add_argument(
@@ -115,7 +116,7 @@ if __name__ == "__main__":
         "--project-type",
         type=int,
         choices=[t.value for t in ProjectType],
-        help="Type of project to create (1=CXX_EXE, 2=CXX_LIB, 3=CXX_CUDA_EXE, 4=CXX_CUDA_LIB)",
+        help="Type of project to create (1=cxx_exe, 2=cxx_lib, 3=cuda_exe, 4=cuda_lib)",
     )
 
     def validate_project_name(name):
@@ -132,7 +133,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    if not args.remove_all and (args.project_type is None or args.project_name is None):
+    if not args.reset and (args.project_type is None or args.project_name is None):
         parser.error(
             "--project-type and --project-name are required unless --remove-all is specified"
         )
