@@ -1,4 +1,6 @@
-# Env Variables: CC, CXX, NVCC_CCBIN
+# Env Variables: CC, CXX
+
+set -e  # Exit on error
 
 source ./scripts/windows-prune-PATH.sh
 

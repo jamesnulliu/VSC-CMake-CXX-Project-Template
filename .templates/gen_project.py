@@ -3,6 +3,26 @@ from enum import Enum, unique
 import shutil
 from pathlib import Path
 import os
+import atexit
+
+TEMPLATE_DIR = Path(".templates")
+
+TEMPLATE_GEN_PATHS = [
+    "cmake",
+    "include",
+    "src",
+    "lib",
+    "test",
+    "scripts",
+    "CMakeLists.txt",
+    ".clangd",
+    ".clang-format",
+    ".vscode/launch.json",
+    ".github/workflows/ci-auto-format-and-commit.yml"
+    ".github/workflows/ci-build-and-test.yml",
+]
+
+MATCH_PATTERN = "_template_project_name_"
 
 
 @unique
@@ -56,54 +76,53 @@ def replace_in_directory(directory, old_text, new_text):
 
 
 def main(args):
-    paths_to_remove = [
-        "cmake",
-        "include",
-        "src",
-        "lib",
-        "test",
-        "scripts",
-        "CMakeLists.txt",
-        ".clangd",
-        ".clang-format",
-        ".vscode/launch.json",
-        ".github/workflows/ci-auto-format-and-commit.yml"
-        ".github/workflows/ci-build-and-test.yml",
-    ]
+    # Remove ".templates" directory on exit =======================================================
+    if args.remove_template:
+        atexit.register(shutil.rmtree, TEMPLATE_DIR)
+        return
 
-    for path in paths_to_remove:
+    # Reset project directory by removing all template-generated file =============================
+    for path in TEMPLATE_GEN_PATHS:
         path = Path(path)
         if path.is_file():
             path.unlink(missing_ok=True)
         elif path.is_dir():
             shutil.rmtree(path, ignore_errors=True)
-
-    template_dir = Path("templates")
-
     if args.reset:
-        copy_directory_contents(template_dir / "reset", ".")
+        copy_directory_contents(TEMPLATE_DIR / "reset", ".")
         return
 
     project_type = ProjectType(args.project_type).name
-    match_pattern = "_template_project_name_"
     project_name = args.project_name
 
-    copy_directory_contents(template_dir / "common", ".")
-    copy_directory_contents(template_dir / project_type, ".")
-    rename_directory(Path("include", match_pattern), Path("include", project_name))
+    # Copy contents from common and target project type directory to "." ==========================
+    copy_directory_contents(TEMPLATE_DIR / "common", ".")
+    copy_directory_contents(TEMPLATE_DIR / project_type, ".")
 
+    # Rename "./include/{MATCH_PATTERN}" to "./include/{project_name}" ============================
+    rename_directory(Path("include", MATCH_PATTERN), Path("include", project_name))
+
+    # Rename other {MATCH_PATTERN}s in files ======================================================
     for directory in ["include", "lib", "test", "src"]:
         if Path(directory).is_dir():
-            replace_in_directory(directory, match_pattern, project_name)
+            replace_in_directory(directory, MATCH_PATTERN, project_name)
     if Path("CMakeLists.txt").is_file():
-        replace_in_file("CMakeLists.txt", match_pattern, project_name)
+        replace_in_file("CMakeLists.txt", MATCH_PATTERN, project_name)
+
+    # Rename <path-to-cuda> in ".clangd" to $CUDA_HOME ============================================
     if args.project_type in [3, 4]:
         if Path(".clangd").is_file():
-            replace_in_file(".clangd", "/path/to/cuda", os.environ.get("CUDA_HOME", ""))
+            replace_in_file(
+                ".clangd", "<path-to-cuda>", os.environ.get("CUDA_HOME", "")
+            )
 
 
 if __name__ == "__main__":
     parser = ArgumentParser(description="Project type selector")
+
+    parser.add_argument(
+        "--remove-template", action="store_true", help="Remove '.templates' directory."
+    )
 
     parser.add_argument(
         "--reset",
@@ -133,9 +152,11 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    if not args.reset and (args.project_type is None or args.project_name is None):
+    if not (args.reset or args.remove_template) and (
+        args.project_type is None or args.project_name is None
+    ):
         parser.error(
-            "--project-type and --project-name are required unless --remove-all is specified"
+            "--project-type and --project-name are required unless --remove-template or --reset is specified"
         )
 
     main(args)

@@ -40,7 +40,7 @@ jobs:
             echo "format_status=fail" >> $GITHUB_OUTPUT
           else
             echo "All files are properly formatted."
-            echo "format_status=pass" >> $GITHUB_OUTPUT
+            echo "./.format_status=pass" >> $GITHUB_OUTPUT
           fi
 
       - name: Commit and Push to main
