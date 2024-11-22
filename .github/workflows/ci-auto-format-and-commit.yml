@@ -18,11 +18,18 @@ jobs:
           # You should add a Personal Access Token (PAT) to the repository secrets
           token: ${{ secrets.PAT || github.token }}
 
-      - name: Install clang-format
-        run: sudo apt-get install clang-format
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install formatter
+        run: |
+          sudo apt-get install clang-format
+          python -m pip install black
 
       - name: Run format script
-        run: bash scripts/format.sh
+        run: bash templates/common/scripts/format.sh -cxx -py
       
       - name: Check for Uncommitted Changes
         id: format_check

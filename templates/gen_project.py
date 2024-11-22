@@ -75,7 +75,6 @@ def main(args):
         elif path.is_dir():
             shutil.rmtree(path, ignore_errors=True)
 
-
     if args.remove_all:
         return
 
