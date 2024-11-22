@@ -91,8 +91,9 @@ def main(args):
     if Path("CMakeLists.txt").is_file():
         replace_in_file("CMakeLists.txt", match_pattern, project_name)
 
-    if Path(".clangd").is_file():
-        replace_in_file(".clangd", "/path/to/cuda", os.environ["CUDA_HOME"])
+    if args.project_type in [3, 4]:
+        if Path(".clangd").is_file():
+            replace_in_file(".clangd", "/path/to/cuda", os.environ.get("CUDA_HOME", ""))
 
 
 if __name__ == "__main__":
