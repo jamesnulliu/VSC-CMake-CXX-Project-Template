@@ -5,6 +5,9 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write
+
 jobs:
   format:
     runs-on: ubuntu-latest
@@ -24,14 +27,18 @@ jobs:
           python-version: "3.12"
 
       - name: Install formatter
+        shell: bash
         run: |
           sudo apt-get install clang-format
           python -m pip install black
 
       - name: Run format script
-        run: bash ./.templates/common/scripts/format.sh -cxx -py
+        shell: bash
+        run: |
+          bash ./.templates/common/scripts/format.sh -cxx -py --clang-format-config=./.templates/common/.clang-format
       
       - name: Check for Uncommitted Changes
+        shell: bash
         id: format_check
         run: |
           # Check if clang-format introduced any changes
@@ -44,6 +51,7 @@ jobs:
           fi
 
       - name: Commit and Push to main
+        shell: bash
         if : ${{ steps.format_check.outputs.format_status == 'fail' }}
         run: |
           git config user.name "github-actions[bot]"

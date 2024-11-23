@@ -7,6 +7,7 @@ set -e  # Exit on error
 
 FORMAT_C_CXX=false
 FORMAT_PYTHON=false
+CLANG_FORMAT_CONFIG=".clang-format"
 
 while [[ $# -gt 0 ]]; do
     case $1 in
@@ -14,6 +15,8 @@ while [[ $# -gt 0 ]]; do
             FORMAT_C_CXX=true ;;
         -py|-python)
             FORMAT_PYTHON=true ;;
+        --clang-format-config=*)
+            CLANG_FORMAT_CONFIG="${1#*=}" ;;
         *)
             # [TODO] Add detailed help message
             echo "Unknown argument: $1"; exit 1 ;;
@@ -25,7 +28,11 @@ if [[ "$FORMAT_C_CXX" == "true" ]]; then
     echo "Formatting C/C++/CUDA files..."
     files=$(git ls-files | grep -E '\.(c|h|cpp|hpp|cu|cuh)$')
     if [[ -n "$files" ]]; then
-        clang-format -i $files --Werror
+        if [[ -n "$CLANG_FORMAT_CONFIG" && -f "$CLANG_FORMAT_CONFIG" ]]; then
+            clang-format -i $files -style=file:$CLANG_FORMAT_CONFIG
+        else
+            clang-format -i $files
+        fi
     fi
 fi
 
@@ -33,7 +40,7 @@ if [[ "$FORMAT_PYTHON" == "true" ]]; then
     echo "Formatting Python files..."
     files=$(git ls-files '*.py')
     if [[ -n "$files" ]]; then
-        black --quiet --fast $files --diff
+        black --quiet --fast $files
     fi
 fi
 

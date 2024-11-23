@@ -6,7 +6,7 @@
             "type": "cppdbg",
             "request": "launch",
             // [NOTE] Change this to path of the executable to debug
-            "program": "${workspaceFolder}/build/src/main",
+            "program": "${workspaceFolder}/build/test/test",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -33,7 +33,7 @@
             "type": "cppdbg",
             "request": "launch",
             // [NOTE] Change this to path of the executable to debug
-            "program": "${workspaceFolder}/build/src/main",
+            "program": "${workspaceFolder}/build/test/test",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -60,7 +60,7 @@
             "type": "cppvsdbg",
             "request": "launch",
             // [NOTE] Change this to path of the executable to debug
-            "program": "${workspaceFolder}/build/src/main.exe",
+            "program": "${workspaceFolder}/build/test/test.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

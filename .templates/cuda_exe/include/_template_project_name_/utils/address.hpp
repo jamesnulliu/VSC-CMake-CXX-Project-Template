@@ -32,8 +32,7 @@ constexpr auto computeOffset(ArgsT... args) -> OffsetT {
                    stride *= std::get<nArgs - 1 - I>(params))
                 : 0),
      ...);
-  }
-  (std::make_index_sequence<nDims>{});
+  }(std::make_index_sequence<nDims>{});
 #else
   auto params = std::array{static_cast<OffsetT>(args)...};
   for (std::size_t i = 0; i < nDims; ++i) {
