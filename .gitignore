@@ -33,3 +33,6 @@
 
 # CMake Build Dir
 build
+
+# Clangd Cache
+.cache

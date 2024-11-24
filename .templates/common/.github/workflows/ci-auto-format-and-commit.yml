@@ -26,7 +26,7 @@ jobs:
           sudo apt-get install clang-format
 
       - name: Run format script
-        run: bash templates/common/scripts/format.sh -cxx
+        run: bash ./scripts/format.sh -cxx
       
       - name: Check for Uncommitted Changes
         id: format_check

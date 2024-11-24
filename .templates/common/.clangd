@@ -1,5 +1,7 @@
 CompileFlags:
   Add: 
+    - Wall
+    - Wextra
     - --cuda-path=<path-to-cuda>
     - --no-cuda-version-check
   Remove:
@@ -14,6 +16,9 @@ CompileFlags:
     - --expt-extended-lambda
     - -Xcompiler*
     - -arch=*
+    - -fmodules*
+    - -fmodule-mapper*
+    - -fdeps-format*
 
 Diagnostics:
   UnusedIncludes: None

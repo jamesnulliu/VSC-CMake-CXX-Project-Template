@@ -23,10 +23,13 @@ python ./.templates/gen_project.py -n <project-name> -t <project-type>
 After generation, build the project by:
 
 ```bash
-# Linux
 bash ./scripts/build.sh
-# Windows
-.\scripts\build.bat
+```
+
+Or if you are using windows and want to use MSVC deliberately, run the following command in Powershell or CMD:
+
+```pwsh
+.\scripts\msvc-bash.bat .\scripts\build.sh --prune-env-path
 ```
 
 ### 1.3. Reset Project

@@ -7,8 +7,14 @@ add_executable(${TARGET_NAME} ${CXX_SOURCES} ${CUDA_SOURCES})
 
 target_link_libraries(
     ${TARGET_NAME} PRIVATE 
-    # [SEE] "lib/cpu/CMakeLists.txt"
+    # @see "lib/cpu/CMakeLists.txt"
     ${PROJECT_NAMESPACE}templateCpuLib
-    # [SEE] "lib/cuda/CMakeLists.txt"
+    # @see "lib/cuda/CMakeLists.txt"
     ${PROJECT_NAMESPACE}templateCudaLib
+)
+
+set_target_properties(
+    ${TARGET_NAME} PROPERTIES
+    # Force the output name to end with ".exe"
+    EXECUTABLE_SUFFIX ".exe"
 )

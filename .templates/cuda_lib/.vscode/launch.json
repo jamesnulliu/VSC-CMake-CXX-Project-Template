@@ -2,22 +2,25 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Launch: [Debug|Linux-GDB]",
+            "name": "Launch: [Debug|GDB]",
             "type": "cppdbg",
             "request": "launch",
-            // [NOTE] Change this to path of the executable to debug
-            "program": "${workspaceFolder}/build/test/test",
+            "program": "${workspaceFolder}/build/test/test.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [
+                {
+                    "name": "CC",
+                    "value": "gcc"
+                },
                 {
                     "name": "CXX",
                     "value": "g++"
                 },
             ],
             "externalConsole": false,
-            "preLaunchTask": "Task: [Build|Windows-Debug]",
+            "preLaunchTask": "Task: [Build|Debug]",
             "MIMode": "gdb",
             "setupCommands": [
                 {
@@ -29,22 +32,25 @@
             "miDebuggerPath": "gdb"
         },
         {
-            "name": "Launch: [Debug|Linux-LLDB]",
+            "name": "Launch: [Debug|LLDB]",
             "type": "cppdbg",
             "request": "launch",
-            // [NOTE] Change this to path of the executable to debug
-            "program": "${workspaceFolder}/build/test/test",
+            "program": "${workspaceFolder}/build/test/test.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [
+                {
+                    "name": "CC",
+                    "value": "clang"
+                },
                 {
                     "name": "CXX",
                     "value": "clang++"
                 },
             ],
             "externalConsole": false,
-            "preLaunchTask": "Task: [Build|Windows-Debug]",
+            "preLaunchTask": "Task: [Build|Debug]",
             "MIMode": "lldb",
             "setupCommands": [
                 {
@@ -56,17 +62,25 @@
             "miDebuggerPath": "lldb"
         },
         {
-            "name": "Launch: [Debug|Windows-VSDB]",
+            "name": "Launch: [Debug|VSDB]",
             "type": "cppvsdbg",
             "request": "launch",
-            // [NOTE] Change this to path of the executable to debug
             "program": "${workspaceFolder}/build/test/test.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
-            "environment": [],
+            "environment": [
+                {
+                    "name": "CC",
+                    "value": "cl"
+                },
+                {
+                    "name": "CXX",
+                    "value": "cl"
+                }
+            ],
             "externalConsole": false,
-            "preLaunchTask": "Task: [Build|Windows-Debug]"
+            "preLaunchTask": "Task: [Build|Debug-MSVC]"
         },
     ]
 }

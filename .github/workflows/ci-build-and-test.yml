@@ -15,7 +15,7 @@ jobs:
         build_type: [Release]
         c_compiler: [gcc, clang, cl]
         # [TODO] Enable CUDA test 
-        project_type: [1, 2]
+        project_type: [0, 1]
         include:
           - os: windows-latest
             c_compiler: cl
@@ -87,4 +87,4 @@ jobs:
         if: runner.os == 'Windows'
         shell: powershell
         run: >
-          cmd /c ".\scripts\build.bat"
+          .\scripts\msvc-bash.bat .\scripts\build.sh --prune-env-path

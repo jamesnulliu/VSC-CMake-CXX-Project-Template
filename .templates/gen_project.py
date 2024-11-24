@@ -5,6 +5,13 @@ from pathlib import Path
 import os
 import atexit
 
+PROJECT_TYPE = {
+    0: "cxx_exe",
+    1: "cxx_lib",
+    2: "cuda_exe",
+    3: "cuda_lib",
+}
+
 TEMPLATE_DIR = Path(".templates")
 
 TEMPLATE_GEN_PATHS = [
@@ -17,104 +24,114 @@ TEMPLATE_GEN_PATHS = [
     "CMakeLists.txt",
     ".clangd",
     ".clang-format",
-    ".vscode/launch.json",
+    ".vscode",
     ".github/workflows/ci-auto-format-and-commit.yml"
     ".github/workflows/ci-build-and-test.yml",
 ]
 
+TARGET_EXTENSIONS = (
+    ".c",
+    ".h",
+    ".cpp",
+    ".hpp",
+    ".cu",
+    ".cuh",
+    "CMakeLists.txt",
+    ".cmake",
+)
+
 MATCH_PATTERN = "_template_project_name_"
 
 
-@unique
-class ProjectType(Enum):
-    cxx_exe = 1
-    cxx_lib = 2
-    cuda_exe = 3
-    cuda_lib = 4
+class ProjectGenerator:
+    def __init__(self, project_name: str, project_type: str):
+        self.project_name = project_name
+        self.project_type = PROJECT_TYPE[project_type]
 
+    def run(self):
+        shutil.copytree(TEMPLATE_DIR / "common", ".", dirs_exist_ok=True)
+        shutil.copytree(TEMPLATE_DIR / self.project_type, ".", dirs_exist_ok=True)
+        Path("./include", MATCH_PATTERN).rename(Path("./include", self.project_name))
+        for directory in list(map(Path, ["include", "lib", "test", "src", "cmake"])):
+            self.replace_in_directory(directory, MATCH_PATTERN, self.project_name)
+        self.replace_api()
+        self.replace_in_file("CMakeLists.txt", MATCH_PATTERN, self.project_name)
+        if self.project_type.startswith("cuda"):
+            cuda_home = os.environ.get("CUDA_HOME", os.environ["CUDA_DIR"])
+            self.replace_in_file(".clangd", "<path-to-cuda>", cuda_home)
+        else:
+            self.remove_line_in_file(".clangd", "cuda")
 
-def copy_directory_contents(src_dir, dst_dir):
-    src_dir = Path(src_dir)
-    dst_dir = Path(dst_dir)
+    @staticmethod
+    def replace_in_file(file_path: str, old: str, new: str):
+        file_path = Path(file_path)
+        with open(file_path, "r") as file:
+            content = file.read()
+        content = content.replace(old, new)
+        with open(file_path, "w") as file:
+            file.write(content)
 
-    # Create destination directory if it doesn't exist
-    dst_dir.mkdir(parents=True, exist_ok=True)
+    @staticmethod
+    def remove_line_in_file(file_path: str, pattern: str):
+        file_path = Path(file_path)
 
-    # Copy each item in the source directory
-    for item in src_dir.glob("*"):
-        if item.is_file():
-            shutil.copy2(item, dst_dir)
-        elif item.is_dir():
-            shutil.copytree(item, dst_dir / item.name, dirs_exist_ok=True)
+        # Read the content of the file
+        with open(file_path, "r") as file:
+            lines = file.readlines()
 
+        # Write back all lines except those containing 'pattern'
+        with open(file_path, "w") as file:
+            for line in lines:
+                if pattern not in line:
+                    file.write(line)
 
-def rename_directory(old_path, new_path):
-    if Path(old_path).is_dir():
-        Path(old_path).rename(new_path)
+    @staticmethod
+    def replace_in_directory(directory, old, new):
+        for root, _, files in Path(directory).walk():
+            for file in files:
+                if file.endswith(TARGET_EXTENSIONS):
+                    file_path = Path(root, file)
+                    ProjectGenerator.replace_in_file(file_path, old, new)
 
-
-def replace_in_file(file_path, old_text, new_text):
-    with open(file_path, "r") as file:
-        content = file.read()
-
-    content = content.replace(old_text, new_text)
-
-    with open(file_path, "w") as file:
-        file.write(content)
-
-
-def replace_in_directory(directory, old_text, new_text):
-    for root, _, files in Path(directory).walk():
-        for file in files:
-            if file.endswith((".cpp", ".hpp", ".h", ".cu", ".cuh")):
-                file_path = Path(root, file)
-                replace_in_file(
-                    file_path,
-                    f"{old_text}",
-                    f"{new_text}",
-                )
+    def replace_api(self):
+        self.replace_in_directory(
+            Path("include"),
+            f"{self.project_name}_API",
+            f"{self.project_name.upper()}_API",
+        )
+        self.replace_in_directory(
+            Path("include"),
+            f"{self.project_name}_EXPORT",
+            f"{self.project_name.upper()}_EXPORT",
+        )
+        self.replace_in_directory(
+            Path("include"),
+            f"{self.project_name}_IMPORT",
+            f"{self.project_name.upper()}_IMPORT",
+        )
 
 
 def main(args):
-    # Remove ".templates" directory on exit =======================================================
+    # Remove ".templates" directory on exit
     if args.remove_template:
         atexit.register(shutil.rmtree, TEMPLATE_DIR)
         return
 
-    # Reset project directory by removing all template-generated file =============================
+    # Reset project directory by removing all template-generated file
     for path in TEMPLATE_GEN_PATHS:
         path = Path(path)
         if path.is_file():
             path.unlink(missing_ok=True)
         elif path.is_dir():
             shutil.rmtree(path, ignore_errors=True)
+
+    # Reset only
     if args.reset:
-        copy_directory_contents(TEMPLATE_DIR / "reset", ".")
+        shutil.copytree(TEMPLATE_DIR / "reset", ".", dirs_exist_ok=True)
         return
 
-    project_type = ProjectType(args.project_type).name
-    project_name = args.project_name
-
-    # Copy contents from common and target project type directory to "." ==========================
-    copy_directory_contents(TEMPLATE_DIR / "common", ".")
-    copy_directory_contents(TEMPLATE_DIR / project_type, ".")
-
-    # Rename "./include/{MATCH_PATTERN}" to "./include/{project_name}" ============================
-    rename_directory(Path("include", MATCH_PATTERN), Path("include", project_name))
-
-    # Rename other {MATCH_PATTERN}s in files ======================================================
-    for directory in ["include", "lib", "test", "src"]:
-        if Path(directory).is_dir():
-            replace_in_directory(directory, MATCH_PATTERN, project_name)
-    if Path("CMakeLists.txt").is_file():
-        replace_in_file("CMakeLists.txt", MATCH_PATTERN, project_name)
-
-    # Rename <path-to-cuda> in ".clangd" to $CUDA_HOME ============================================
-    if args.project_type in [3, 4]:
-        if Path(".clangd").is_file():
-            replace_in_file(
-                ".clangd", "<path-to-cuda>", os.environ.get("CUDA_HOME", "")
-            )
+    generator = ProjectGenerator(args.project_name, args.project_type)
+    generator.run()
 
 
 if __name__ == "__main__":
@@ -134,11 +151,11 @@ if __name__ == "__main__":
         "-t",
         "--project-type",
         type=int,
-        choices=[t.value for t in ProjectType],
-        help="Type of project to create (1=cxx_exe, 2=cxx_lib, 3=cuda_exe, 4=cuda_lib)",
+        choices=[t for t in range(len(PROJECT_TYPE))],
+        help=f"Type of project to create: {PROJECT_TYPE}",
     )
 
-    def validate_project_name(name):
+    def validate_project_name(name: str):
         if not name.isidentifier():
             raise ArgumentTypeError(f"Project name '{name}' must be a valid identifier")
         return name

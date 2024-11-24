@@ -68,4 +68,4 @@ jobs:
         if: runner.os == 'Windows'
         shell: powershell
         run: >
-          cmd /c ".\scripts\build.bat"
+          .\scripts\msvc-bash.bat .\scripts\build.sh --prune-env-path

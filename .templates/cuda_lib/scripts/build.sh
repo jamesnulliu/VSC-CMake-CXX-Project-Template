@@ -2,8 +2,6 @@
 
 set -e  # Exit on error
 
-source ./scripts/windows-prune-PATH.sh
-
 SOURCE_DIR=.
 BUILD_DIR=./build
 BUILD_TYPE=Release
@@ -25,6 +23,11 @@ while [[ $# -gt 0 ]]; do
             CUDA_STANDARD="${1#*=}" ;;
         --shared)
             BUILD_SHARED_LIBS=ON ;;
+        --prune-env-path)
+            # Takes effects only on windows
+            source ./scripts/windows-prune-PATH.sh ;;
+        --rm-build-dir)
+            rm -rf ./build ;;
         *)
             # [TODO] Add detailed help message
             echo "Unknown argument: $1"; exit 1 ;;

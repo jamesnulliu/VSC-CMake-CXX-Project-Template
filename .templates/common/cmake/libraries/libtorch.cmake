@@ -5,7 +5,7 @@ set(PY_RESULT)
 set(PY_OUTPUT)
 set(PY_ERROR)
 
-# [SEE] "./cmake/utils/python.cmake"
+# @see "./cmake/utils/python.cmake"
 run_python(
     "import torch;print(torch.utils.cmake_prefix_path)"
     PY_RESULT PY_OUTPUT PY_ERROR

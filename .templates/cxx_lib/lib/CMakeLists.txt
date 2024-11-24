@@ -12,9 +12,9 @@ target_include_directories(
 )
 
 target_compile_definitions(${LIB_NAME} 
-    PRIVATE $<$<BOOL:${BUILD_SHARED_LIBS}>:VSC_CPP_TEMPLATE_EXPORT>
-    INTERFACE $<$<BOOL:${BUILD_SHARED_LIBS}>:VSC_CPP_TEMPLATE_IMPORT>
+    PRIVATE $<$<BOOL:${BUILD_SHARED_LIBS}>:_template_project_name__EXPORT>
+    INTERFACE $<$<BOOL:${BUILD_SHARED_LIBS}>:_template_project_name__IMPORT>
 )
 
-# [SEE] "cmake/utils/lib-install.cmake"
+# @see "cmake/utils/lib-install.cmake"
 install_libraries(${LIB_NAME} ${PROJECT_NAMESPACE} ${LIB_NAME})

@@ -15,3 +15,9 @@ target_link_libraries(
     CUDA::cudart 
     CUDA::cublas
 )
+
+set_target_properties(
+    ${TARGET_NAME} PROPERTIES
+    # Force the output name to end with ".exe"
+    EXECUTABLE_SUFFIX ".exe"
+)

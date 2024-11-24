@@ -24,7 +24,7 @@ project(VSC-CMAKE-CXX-TEMPLATE VERSION 1.0.0)
 # Common utility functions:
 include(${PROJECT_SOURCE_DIR}/cmake/utils/common.cmake)
 
-# [SEE] "./cmake/utils/common.cmake"
+# @see "./cmake/utils/common.cmake"
 set_default_values(
     # CMake project namespace:
     # All the libs should have a alias with this namespace
