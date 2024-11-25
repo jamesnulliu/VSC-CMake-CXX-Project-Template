@@ -1,7 +1,7 @@
 CompileFlags:
   Add: 
-    - Wall
-    - Wextra
+    - -Wall
+    - -Wextra
     - --cuda-path=<path-to-cuda>
     - --no-cuda-version-check
   Remove:
@@ -21,19 +21,15 @@ CompileFlags:
     - -fdeps-format*
 
 Diagnostics:
-  UnusedIncludes: None
+  UnusedIncludes: Strict
+  MissingIncludes: Strict
 
   ClangTidy:
     Add: [
       performance-*,
       modernize-*,
       clang-analyzer-*,
-      readability-identifier-naming,
-      readability-braces-around-statements,
-      readability-identifier-naming,
-      readability-implicit-bool-conversion,
-      readability-qualified-auto,
-      readability-redundant-member-init
+      readability-*,
     ]
 
     CheckOptions:

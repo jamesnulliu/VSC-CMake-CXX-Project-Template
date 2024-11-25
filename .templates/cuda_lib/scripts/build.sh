@@ -27,7 +27,7 @@ while [[ $# -gt 0 ]]; do
             # Takes effects only on windows
             source ./scripts/windows-prune-PATH.sh ;;
         --rm-build-dir)
-            rm -rf ./build ;;
+            rm -rf $BUILD_DIR ;;
         *)
             # [TODO] Add detailed help message
             echo "Unknown argument: $1"; exit 1 ;;
