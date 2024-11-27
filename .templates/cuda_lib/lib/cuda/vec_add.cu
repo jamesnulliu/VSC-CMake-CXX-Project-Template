@@ -1,6 +1,5 @@
 #include <cstdint>
 #include <cstdio>
-#include <tuple>
 
 #include <cuda_runtime.h>
 
@@ -10,8 +9,7 @@
 namespace _template_project_name_::cuda
 {
 
-__global__ void vec_add(const float* const a, const float* const b,
-                        float* const c, const int n)
+__global__ void vec_add(const float* a, const float* b, float* c, int n)
 {
     const std::uint32_t threadIndex = threadIdx.x;
     std::uint32_t smId;

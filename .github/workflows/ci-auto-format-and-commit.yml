@@ -31,7 +31,7 @@ jobs:
         run: |
           wget https://apt.llvm.org/llvm.sh && sudo bash ./llvm.sh 20 && rm ./llvm.sh
           sudo apt-get install clang-format-20
-          sudo ln -s $(which clang-format-20) /usr/bin/clang-format
+          sudo ln -sf $(which clang-format-20) /usr/bin/clang-format
           python -m pip install black
 
       - name: Run format script
@@ -58,5 +58,5 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git commit -am "[skip ci] Auto-format code with clang-format"
+          git commit -am "[skip ci] Auto-format code with clang-format and black"
           git push origin main

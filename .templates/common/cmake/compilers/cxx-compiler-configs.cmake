@@ -37,7 +37,7 @@ elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     string(APPEND CMAKE_CXX_FLAGS_DEBUG " -g")
     # Set stack size
     if (WIN32)
-        string(APPEND CMAKE_EXE_LINKER_FLAGS " -Wl,--stack,${STACK_SIZE}")
+        string(APPEND CMAKE_EXE_LINKER_FLAGS " -Wl,-stack,${STACK_SIZE}")
     else()
         string(APPEND CMAKE_EXE_LINKER_FLAGS " -Wl,-zstack-size=${STACK_SIZE}")
     endif()

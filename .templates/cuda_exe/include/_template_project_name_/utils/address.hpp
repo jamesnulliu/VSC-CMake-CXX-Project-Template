@@ -1,11 +1,13 @@
 #pragma once
 
 #include <cassert>
-#include <tuple>
+#include <cstddef>
 
 #if __cplusplus < 202002L
     #include <array>
-    #include <cstdint>
+#else
+    #include <tuple>
+    #include <utility>
 #endif
 
 namespace _template_project_name_

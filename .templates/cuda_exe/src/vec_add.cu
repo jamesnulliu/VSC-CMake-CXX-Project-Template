@@ -1,6 +1,5 @@
 #include <cstdint>
 #include <cstdio>
-#include <tuple>
 
 #include <cuda_runtime.h>
 

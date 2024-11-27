@@ -32,6 +32,12 @@ Diagnostics:
       readability-*,
     ]
 
+    Remove: [
+      readability-isolate-declaration,
+      readability-identifier-length,
+      readability-magic-numbers,
+    ]
+
     CheckOptions:
       readability-identifier-naming.VariableCase: lowerCamelCase
       readability-identifier-naming.ProtectedMemberCase: lowerCamelCase

@@ -1,6 +1,5 @@
 #include <array>
 #include <iostream>
-#include <vector>
 
 #include <_template_project_name_/math/vec_add.hpp>
 
