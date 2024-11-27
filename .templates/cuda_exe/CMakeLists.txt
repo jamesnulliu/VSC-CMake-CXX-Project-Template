@@ -14,6 +14,7 @@ project(VSC-CMAKE-CXX-TEMPLATE VERSION 1.0.0)
 #   - `ENV{CC}`: The compiler for C code
 #   - `ENV{CXX}`: The compiler for C++ code
 #   - `CMAKE_CXX_STANDARD`: The standard for C++ code
+#   - `CMAKE_CXX_SCAN_FOR_MODULES`: Whether to use modules.
 #   - `STACK_SIZE`: The stack size for the executable
 #
 # In "cmake/compilers/cuda-compiler-configs.cmake":
