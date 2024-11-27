@@ -9,18 +9,7 @@
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
-            "environment": [
-                {
-                    "name": "CC",
-                    "value": "gcc"
-                },
-                {
-                    "name": "CXX",
-                    "value": "g++"
-                },
-            ],
             "externalConsole": false,
-            "preLaunchTask": "Task: [Build|Debug]",
             "MIMode": "gdb",
             "setupCommands": [
                 {
@@ -39,18 +28,7 @@
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
-            "environment": [
-                {
-                    "name": "CC",
-                    "value": "clang"
-                },
-                {
-                    "name": "CXX",
-                    "value": "clang++"
-                },
-            ],
             "externalConsole": false,
-            "preLaunchTask": "Task: [Build|Debug]",
             "MIMode": "lldb",
             "setupCommands": [
                 {
@@ -69,18 +47,7 @@
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
-            "environment": [
-                {
-                    "name": "CC",
-                    "value": "cl"
-                },
-                {
-                    "name": "CXX",
-                    "value": "cl"
-                }
-            ],
             "externalConsole": false,
-            "preLaunchTask": "Task: [Build|Debug-MSVC]"
         },
     ]
 }

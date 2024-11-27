@@ -57,7 +57,8 @@ class ProjectGenerator:
         self.replace_api()
         self.replace_in_file("CMakeLists.txt", MATCH_PATTERN, self.project_name)
         if self.project_type.startswith("cuda"):
-            cuda_home = os.environ.get("CUDA_HOME", os.environ["CUDA_DIR"])
+            if not (cuda_home := os.environ.get("CUDA_HOME", None)):
+                cuda_home = os.environ.get("CUDA_DIR", None)
             self.replace_in_file(".clangd", "<path-to-cuda>", cuda_home)
         else:
             self.remove_line_in_file(".clangd", "cuda")

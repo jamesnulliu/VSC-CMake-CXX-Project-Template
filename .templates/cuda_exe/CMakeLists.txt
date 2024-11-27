@@ -45,4 +45,6 @@ include(${PROJECT_SOURCE_DIR}/cmake/compilers/cuda-compiler-configs.cmake)
 # Some preparational steps for linking CUDA libraries:
 include(${PROJECT_SOURCE_DIR}/cmake/libraries/libcuda.cmake)
 
+set(CMAKE_EXECUTABLE_SUFFIX ".exe")
+
 add_subdirectory(${PROJECT_SOURCE_DIR}/src)

@@ -34,4 +34,6 @@ set_default_values(
 # Compiler configurations for cpp, e.g., g++, clang++, msvc(cl), etc.
 include(${PROJECT_SOURCE_DIR}/cmake/compilers/cxx-compiler-configs.cmake)
 
+set(CMAKE_EXECUTABLE_SUFFIX ".exe")
+
 add_subdirectory(${PROJECT_SOURCE_DIR}/src)
