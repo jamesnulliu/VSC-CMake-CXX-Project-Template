@@ -18,7 +18,3 @@ target_compile_definitions(${LIB_NAME}
 
 # @see "cmake/utils/lib-install.cmake"
 install_libraries(${LIB_NAME} ${PROJECT_NAMESPACE} ${LIB_NAME})
-
-# 3. libspdlog
-# 4. build.sh option --prune-env-path
-# 5. Check Github CI

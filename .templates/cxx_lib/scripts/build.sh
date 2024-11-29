@@ -26,7 +26,7 @@ while [[ $# -gt 0 ]]; do
         --rm-build-dir)
             rm -rf $BUILD_DIR ;;
         *)
-            # [TODO] Add detailed help message
+            # @todo Add detailed help message
             echo "Unknown argument: $1"; exit 1 ;;
     esac
     shift
