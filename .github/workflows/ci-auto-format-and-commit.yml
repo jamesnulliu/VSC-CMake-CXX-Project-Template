@@ -37,7 +37,7 @@ jobs:
       - name: Run format script
         shell: bash
         run: |
-          bash ./.templates/common/scripts/format.sh -cxx -py \
+          bash ./.templates/common/scripts/format.sh -cxx -py  \
             --clang-format-config=./.templates/common/.clang-format
       
       - name: Check for Uncommitted Changes
