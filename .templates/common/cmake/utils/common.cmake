@@ -1,4 +1,4 @@
-include(${PROJECT_SOURCE_DIR}/cmake/utils/logging.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/logging.cmake)
 
 # @func  set_default_values(<var1> <value1> <var2> <value2> ...)
 # @brief Set default values for variables;

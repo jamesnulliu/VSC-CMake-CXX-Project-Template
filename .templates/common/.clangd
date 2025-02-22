@@ -1,7 +1,5 @@
 CompileFlags:
   Add: 
-    - -Wall
-    - -Wextra
     - --cuda-path=<path-to-cuda>
     - --no-cuda-version-check
   Remove:
@@ -20,9 +18,13 @@ CompileFlags:
     - -fmodule-mapper*
     - -fdeps-format*
 
+Index:
+  Background: Build
+  StandardLibrary: Yes
+
 Diagnostics:
-  UnusedIncludes: Strict
-  MissingIncludes: Strict
+  UnusedIncludes: None
+  MissingIncludes: None
 
   ClangTidy:
     Add: [
@@ -36,17 +38,19 @@ Diagnostics:
       readability-isolate-declaration,
       readability-identifier-length,
       readability-magic-numbers,
+      readability-function-cognitive-complexity,
+      modernize-avoid-c-arrays,
+      readability-math-missing-parentheses,
     ]
 
     CheckOptions:
-      readability-identifier-naming.VariableCase: lowerCamelCase
-      readability-identifier-naming.ProtectedMemberCase: lowerCamelCase
-      readability-identifier-naming.PrivateMemberCase: lowerCamelCase
-      readability-identifier-naming.PublicMemberCase: lowerCamelCase
+      readability-identifier-naming.VariableCase: aNy_CasE
+      readability-identifier-naming.ProtectedMemberCase: aNy_CasE
+      readability-identifier-naming.PrivateMemberCase: aNy_CasE
+      readability-identifier-naming.PublicMemberCase: aNy_CasE
       readability-identifier-naming.NamespaceCase: lower_case
-      readability-identifier-naming.EnumCase: lowerCamelCase
+      readability-identifier-naming.EnumCase: camelBack
       readability-identifier-naming.ClassCase: CamelCase
       readability-identifier-naming.StructCase: CamelCase
-      readability-identifier-naming.FunctionCase: lowerCamelCase
-      readability-identifier-naming.ClassMethodCase: lowerCamelCase
-      readability-identifier-naming.MethodCase: lowerCamelCase
+      readability-identifier-naming.FunctionCase: camelBack
+      readability-identifier-naming.ClassMethodCase: camelBack
