@@ -2,7 +2,7 @@
 # @brief Enable CUDA support.
 # @see "https://cliutils.gitlab.io/modern-cmake/chapters/packages/CUDA.html"
 # 
-# @note Several parameters should be set before including this file:
+# @note Values should be set before including this file:
 #       - CUDA_HOME/CUDA_DIR/ENV{CUDA_HOME}/ENV{CUDA_DIR}:
 #             Path to spdlog libaray installation path.
 # ==================================================================================================

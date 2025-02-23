@@ -3,11 +3,14 @@
 # @brief Compiler configurations for cuda.
 #
 # @note This file shoule NEVER include any other file (to avoid circular dependencies).
+#
+# @note Values MUST be set BEFORE including this file:
+#         - `STDOUT_IS_TERMINAL`: Whether stdout is a terminal.
 # ==================================================================================================
 
 string(ASCII 27 Esc)
 
-if(CMAKE_COLOR_DIAGNOSTICS)
+if(STDOUT_IS_TERMINAL)
     set(LOG_RED "${Esc}[0;31m")
     set(LOG_GREEN "${Esc}[0;32m")
     set(LOG_YELLOW "${Esc}[0;33m")
@@ -28,11 +31,11 @@ else()
 endif()
 
 if(NOT DEFINED LOG_PREFIX)
-    set(LOG_PREFIX "${LOG_PURPLE}_template_project_name_${LOG_RESET}")
+    set(LOG_PREFIX "_template_project_name_")
 endif()
 
 function(log_info msg)
-    message(STATUS "[${LOG_PREFIX}|${LOG_GREEN}INFO${LOG_RESET}] >>> ${msg}")
+    message(STATUS "[${LOG_PURPLE}${LOG_PREFIX}${LOG_RESET}|${LOG_GREEN}INFO${LOG_RESET}] >>> ${msg}")
 endfunction()
 
 function(log_warning msg)

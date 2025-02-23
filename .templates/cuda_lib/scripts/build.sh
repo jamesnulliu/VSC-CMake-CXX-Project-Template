@@ -9,6 +9,14 @@ CXX_STANDARD=20
 CUDA_STANDARD=20
 BUILD_SHARED_LIBS=OFF
 
+if [ -t 1 ]; then
+    STDOUT_IS_TERMINAL=ON
+    export GTEST_COLOR=yes
+else
+    STDOUT_IS_TERMINAL=OFF
+    export GTEST_COLOR=no
+fi
+
 while [[ $# -gt 0 ]]; do
     case $1 in
         -S|--source-dir)
@@ -36,6 +44,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 cmake -G Ninja -S $SOURCE_DIR -B $BUILD_DIR \
+    -DSTDOUT_IS_TERMINAL=$STDOUT_IS_TERMINAL \
     -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
     -DCMAKE_CXX_STANDARD=$CXX_STANDARD \
     -DCMAKE_CUDA_STANDARD=$CUDA_STANDARD \
