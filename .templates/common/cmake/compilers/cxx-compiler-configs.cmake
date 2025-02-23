@@ -2,7 +2,9 @@
 # @file compiler-configs-cpp.cmake
 # @brief Compiler configurations for the host.
 #
-# @note Several parameters SHOULD be set BEFORE including this file:
+# @note Values MUST be set BEFORE including this file:
+#         - `STDOUT_IS_TERMINAL`: Whether stdout is a terminal.
+#       Values SHOULD be set BEFORE including this file:
 #         - `ENV{CXX}`: C++ Compiler. Default: auto-detected.
 #         - `CMAKE_CXX_STANDARD`: C++ Standard. Default: 20.
 #         - `CMAKE_CXX_SCAN_FOR_MODULES`: Whether to use modules. Default: OFF.
@@ -57,4 +59,12 @@ elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
 #   Support more compilers
 else()
     log_fatal("Unsupported compiler")
+endif()
+
+if(STDOUT_IS_TERMINAL)
+    add_compile_options(
+        $<$<CXX_COMPILER_ID:GNU>:-fdiagnostics-color=always>
+        $<$<CXX_COMPILER_ID:Clang>:-fcolor-diagnostics>
+        $<$<CXX_COMPILER_ID:MSVC>:/FC>
+    )
 endif()
