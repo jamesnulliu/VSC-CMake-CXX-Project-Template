@@ -43,3 +43,7 @@
 - `STACK_SIZE`: Stack size for the executable targets (if any).  
   See: [cmake/compilers/cxx-compiler-configs.cmake](../cmake/compilers/cxx-compiler-configs.cmake).  
   Default: `1048576` (Bytes).
+- `STDOUT_IS_TERMINAL`: Whether the standard output is a terminal; Controls the output color.
+  See: [CMakelists.txt](../CMakeLists.txt); [cmake/compilers/cxx-compiler-configs.cmake](../cmake/compilers/cxx-compiler-configs.cmake); [cmake/utils/logging.cmake](../cmake/utils/logging.cmake).  
+  Default: `OFF`.  
+  Possible values: `ON`, `OFF`.
