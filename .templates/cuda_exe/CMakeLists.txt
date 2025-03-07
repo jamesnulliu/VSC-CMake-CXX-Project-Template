@@ -7,16 +7,15 @@ project(VSC-CMAKE-CXX-TEMPLATE VERSION 1.0.0)
 # Common utility functions:
 include(${PROJECT_SOURCE_DIR}/cmake/utils/common.cmake)
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_EXECUTABLE_SUFFIX ".exe")
+
 # @see "./cmake/utils/common.cmake"
 set_default_values(
     # CMake project namespace:
     # All the libs should have a alias with this namespace
     # @note Change this to your own namespace
     PROJECT_NAMESPACE "_template_project_name_::"
-    # Executable suffix;
-    # This ensures that both in windows or unix-based systems,
-    # the generated executables would has ".exe" as the suffix
-    CMAKE_EXECUTABLE_SUFFIX ".exe"
 )
 
 # Compiler configurations for cpp, e.g., g++, clang++, msvc(cl), etc.

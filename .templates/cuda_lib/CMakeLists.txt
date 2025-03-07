@@ -7,6 +7,9 @@ project(VSC-CMAKE-CXX-TEMPLATE VERSION 1.0.0)
 # Common utility functions:
 include(${PROJECT_SOURCE_DIR}/cmake/utils/common.cmake)
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_EXECUTABLE_SUFFIX ".exe")
+
 # @see "./cmake/utils/common.cmake"
 set_default_values(
     # CMake project namespace:
@@ -24,8 +27,6 @@ include(${PROJECT_SOURCE_DIR}/cmake/compilers/cxx-compiler-configs.cmake)
 include(${PROJECT_SOURCE_DIR}/cmake/compilers/cuda-compiler-configs.cmake)
 # Some preparational steps for linking CUDA libraries:
 include(${PROJECT_SOURCE_DIR}/cmake/libraries/libcuda.cmake)
-
-set(CMAKE_EXECUTABLE_SUFFIX ".exe")
 
 add_subdirectory(${PROJECT_SOURCE_DIR}/lib)
 add_subdirectory(${PROJECT_SOURCE_DIR}/test)

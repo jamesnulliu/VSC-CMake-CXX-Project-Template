@@ -9,9 +9,3 @@ target_link_libraries(
     # @see "lib/cpu/CMakeLists.txt"
     ${PROJECT_NAMESPACE}templateCpuLib
 )
-
-set_target_properties(
-    ${TARGET_NAME} PROPERTIES
-    # Force the output name to end with ".exe"
-    EXECUTABLE_SUFFIX ".exe"
-)

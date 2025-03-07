@@ -51,5 +51,5 @@ python ./.templates/gen_project.py -n <project-name> -t <project-type>
 After generating your project, you can remove the ".template" directory by deleting it directly, or use the following command:
 
 ```bash
-python ./.template/gen_project.py --remove-template
+python ./.template/gen_project.py --remove-templates
 ```
