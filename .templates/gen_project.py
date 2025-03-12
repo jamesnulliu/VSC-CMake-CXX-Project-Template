@@ -53,22 +53,12 @@ class ProjectGenerator:
 
     def run(self):
         shutil.copytree(TEMPLATE_DIR / "common", ".", dirs_exist_ok=True)
-        shutil.copytree(
-            TEMPLATE_DIR / self.project_type, ".", dirs_exist_ok=True
-        )
-        Path("./include", MATCH_PATTERN).rename(
-            Path("./include", self.project_name)
-        )
-        for directory in list(
-            map(Path, ["include", "lib", "test", "src", "cmake"])
-        ):
-            self.replace_in_directory(
-                directory, MATCH_PATTERN, self.project_name
-            )
+        shutil.copytree(TEMPLATE_DIR / self.project_type, ".", dirs_exist_ok=True)
+        Path("./include", MATCH_PATTERN).rename(Path("./include", self.project_name))
+        for directory in list(map(Path, ["include", "lib", "test", "src", "cmake"])):
+            self.replace_in_directory(directory, MATCH_PATTERN, self.project_name)
         self.replace_api()
-        self.replace_in_file(
-            "CMakeLists.txt", MATCH_PATTERN, self.project_name
-        )
+        self.replace_in_file("CMakeLists.txt", MATCH_PATTERN, self.project_name)
         if self.project_type.startswith("cuda"):
             if not (cuda_home := os.environ.get("CUDA_HOME", None)):
                 cuda_home = os.environ.get("CUDA_DIR", None)
@@ -135,9 +125,7 @@ def main(args):
             README_PATH,
         ]
         atexit.register(
-            lambda: [
-                shutil.rmtree(path, ignore_errors=True) for path in to_remove
-            ]
+            lambda: [shutil.rmtree(path, ignore_errors=True) for path in to_remove]
         )
         return
 
@@ -183,9 +171,7 @@ if __name__ == "__main__":
 
     def validate_project_name(name: str):
         if not name.isidentifier():
-            raise ArgumentTypeError(
-                f"Project name '{name}' must be a valid identifier"
-            )
+            raise ArgumentTypeError(f"Project name '{name}' must be a valid identifier")
         return name
 
     parser.add_argument(
