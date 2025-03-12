@@ -44,6 +44,23 @@ jobs:
       - name: "[Linux] Install Ninja"
         if: runner.os == 'Linux'
         run: sudo apt-get install ninja-build
+      
+      - name: "[Linux] Install VCPKG"
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          git clone https://github.com/microsoft/vcpkg.git
+          ./vcpkg/bootstrap-vcpkg.sh
+          echo "VCPKG_ROOT=$(pwd)/vcpkg" >> $GITHUB_ENV
+
+      - name: "[Windows] Install VCPKG"
+        if: runner.os == 'Windows'
+        shell: powershell
+        run: |
+          git clone https://github.com/microsoft/vcpkg.git
+          cd vcpkg
+          .\bootstrap-vcpkg.bat
+          echo "VCPKG_ROOT=$(pwd)/vcpkg" >> $GITHUB_ENV
 
       - name: "[Linux|Clang] Install libomp-dev"
         if: runner.os == 'Linux' && matrix.c_compiler == 'clang'

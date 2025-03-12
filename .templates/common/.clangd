@@ -1,5 +1,8 @@
 CompileFlags:
   Add: 
+    - -Wall
+    - -Wextra
+    - -Werror
     - --cuda-path=<path-to-cuda>
     - --no-cuda-version-check
   Remove:

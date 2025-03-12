@@ -13,6 +13,9 @@ PROJECT_TYPE = {
 }
 
 TEMPLATE_DIR = Path(".templates")
+GITHUB_WORKFLOWS_DIR = Path(".github/workflows")
+LICENSE_PATH = Path("LICENSE")
+README_PATH = Path("README.md")
 
 TEMPLATE_GEN_PATHS = [
     "cmake",
@@ -24,9 +27,9 @@ TEMPLATE_GEN_PATHS = [
     "CMakeLists.txt",
     ".clangd",
     ".clang-format",
-    ".vscode",
     ".github/workflows/ci-auto-format-and-commit.yml"
     ".github/workflows/ci-build-and-test.yml",
+    "vcpkg.json",
 ]
 
 TARGET_EXTENSIONS = (
@@ -50,12 +53,22 @@ class ProjectGenerator:
 
     def run(self):
         shutil.copytree(TEMPLATE_DIR / "common", ".", dirs_exist_ok=True)
-        shutil.copytree(TEMPLATE_DIR / self.project_type, ".", dirs_exist_ok=True)
-        Path("./include", MATCH_PATTERN).rename(Path("./include", self.project_name))
-        for directory in list(map(Path, ["include", "lib", "test", "src", "cmake"])):
-            self.replace_in_directory(directory, MATCH_PATTERN, self.project_name)
+        shutil.copytree(
+            TEMPLATE_DIR / self.project_type, ".", dirs_exist_ok=True
+        )
+        Path("./include", MATCH_PATTERN).rename(
+            Path("./include", self.project_name)
+        )
+        for directory in list(
+            map(Path, ["include", "lib", "test", "src", "cmake"])
+        ):
+            self.replace_in_directory(
+                directory, MATCH_PATTERN, self.project_name
+            )
         self.replace_api()
-        self.replace_in_file("CMakeLists.txt", MATCH_PATTERN, self.project_name)
+        self.replace_in_file(
+            "CMakeLists.txt", MATCH_PATTERN, self.project_name
+        )
         if self.project_type.startswith("cuda"):
             if not (cuda_home := os.environ.get("CUDA_HOME", None)):
                 cuda_home = os.environ.get("CUDA_DIR", None)
@@ -114,8 +127,18 @@ class ProjectGenerator:
 
 def main(args):
     # Remove ".templates" directory on exit
-    if args.remove_template:
-        atexit.register(shutil.rmtree, TEMPLATE_DIR)
+    if args.remove_templates:
+        to_remove = [
+            TEMPLATE_DIR,
+            GITHUB_WORKFLOWS_DIR,
+            LICENSE_PATH,
+            README_PATH,
+        ]
+        atexit.register(
+            lambda: [
+                shutil.rmtree(path, ignore_errors=True) for path in to_remove
+            ]
+        )
         return
 
     # Reset project directory by removing all template-generated file
@@ -139,7 +162,9 @@ if __name__ == "__main__":
     parser = ArgumentParser(description="Project type selector")
 
     parser.add_argument(
-        "--remove-template", action="store_true", help="Remove '.templates' directory."
+        "--remove-templates",
+        action="store_true",
+        help="Remove '.templates' and '.github/workflows'.",
     )
 
     parser.add_argument(
@@ -158,7 +183,9 @@ if __name__ == "__main__":
 
     def validate_project_name(name: str):
         if not name.isidentifier():
-            raise ArgumentTypeError(f"Project name '{name}' must be a valid identifier")
+            raise ArgumentTypeError(
+                f"Project name '{name}' must be a valid identifier"
+            )
         return name
 
     parser.add_argument(
@@ -170,11 +197,12 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    if not (args.reset or args.remove_template) and (
+    if not (args.reset or args.remove_templates) and (
         args.project_type is None or args.project_name is None
     ):
         parser.error(
-            "--project-type and --project-name are required unless --remove-template or --reset is specified"
+            "--project-type and --project-name are required unless "
+            "--remove-templates or --reset is specified"
         )
 
     main(args)

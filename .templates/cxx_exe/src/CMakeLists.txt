@@ -8,9 +8,3 @@ target_include_directories(
     ${TARGET_NAME} PRIVATE
     ${PROJECT_SOURCE_DIR}/include
 )
-
-set_target_properties(
-    ${TARGET_NAME} PROPERTIES
-    # Force the output name to end with ".exe"
-    EXECUTABLE_SUFFIX ".exe"
-)

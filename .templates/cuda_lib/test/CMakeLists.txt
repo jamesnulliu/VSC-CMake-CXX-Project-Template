@@ -12,9 +12,3 @@ target_link_libraries(
     # @see "lib/cuda/CMakeLists.txt"
     ${PROJECT_NAMESPACE}templateCudaLib
 )
-
-set_target_properties(
-    ${TARGET_NAME} PROPERTIES
-    # Force the output name to end with ".exe"
-    EXECUTABLE_SUFFIX ".exe"
-)
