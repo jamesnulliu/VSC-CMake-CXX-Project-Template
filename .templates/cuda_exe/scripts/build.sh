@@ -9,18 +9,22 @@ CXX_STANDARD=20
 CUDA_STANDARD=20
 CMAKE_TOOL_CHAIN_FILE=""
 
+# Check if stdout is terminal -> enable/disable colored output
 if [ -t 1 ]; then 
     STDOUT_IS_TERMINAL=ON; export GTEST_COLOR=yes
 else
     STDOUT_IS_TERMINAL=OFF; export GTEST_COLOR=no
 fi
 
-if [ -f "$VCPKG_HOME/scripts/buildsystems/vcpkg.cmake" ]; then
+# Check and set CMAKE_TOOL_CHAIN_FILE to vcpkg.cmake
+if [ -f "$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" ]; then
+    CMAKE_TOOL_CHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake"
+elif [ -f "$VCPKG_HOME/scripts/buildsystems/vcpkg.cmake" ]; then
     CMAKE_TOOL_CHAIN_FILE="$VCPKG_HOME/scripts/buildsystems/vcpkg.cmake"
 else
-    echo "[build.sh] ERROR: ENV:VCPKG_HOME is not set or vcpkg.cmake is not " \
-        "not found. Please install vcpkg and set VCPKG_HOME to the vcpkg " \
-        "root directory"
+    echo "[build.sh][ERROR] ENV:VCPKG_ROOT or ENV:VCPKG_HOME is not set or " \
+        "vcpkg.cmake is not found. Please install vcpkg and set VCPKG_ROOT " \
+        "or VCPKG_HOME to the vcpkg root directory"
     exit 1
 fi
 
@@ -42,7 +46,7 @@ while [[ $# -gt 0 ]]; do
         --rm-build-dir)
             rm -rf $BUILD_DIR ;;
         *)
-            # @todo Add detailed help message
+            # [TODO] Add detailed help message
             echo "Unknown argument: $1"; exit 1 ;;
     esac
     shift
