@@ -12,7 +12,7 @@ export LLVM_VERSION=20
 
 apt-get install -y \
     git apt-utils lsb-release software-properties-common gnupg  \
-    ninja-build pkg-config build-essential gdb
+    ninja-build pkg-config build-essential gdb curl wget
   
 cd /usr/local && git clone https://github.com/microsoft/vcpkg.git && \ 
     cd vcpkg && ./bootstrap-vcpkg.sh  && \
@@ -23,6 +23,10 @@ cd /usr/local && git clone https://github.com/microsoft/vcpkg.git && \
     wget -O /tmp/llvm.sh https://apt.llvm.org/llvm.sh && \
     chmod +x /tmp/llvm.sh && /tmp/llvm.sh ${LLVM_VERSION} && \
     apt-get install -y libomp-${LLVM_VERSION}-dev  
+
+# Add VCPKG_ROOT to environment variables
+echo "export VCPKG_ROOT=/usr/local/vcpkg" >> ~/.bashrc
+source ~/.bashrc
 ```
 
 ### 1.2. Windows with MSVC
@@ -34,8 +38,10 @@ After that, open Powershell, install [scoop](https://scoop.sh/) and the followin
 ```pwsh
 # Allow script execution
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+
 # Install scoop
 Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
+
 # Install softwares
 scoop install cmake ninja git vcpkg
 ```
@@ -47,8 +53,10 @@ You can skip the Visual Studio installation but install MinGW with scoop directl
 ```pwsh
 # Allow script execution
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+
 # Install scoop
 Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
+
 # Install softwares
 scoop install cmake ninja git mingw vcpkg
 ```
@@ -108,5 +116,5 @@ python ./.templates/gen_project.py -n <project-name> -t <project-type>
 After generating your project, you can remove the ".template" directory by deleting it directly, or use the following command:
 
 ```bash
-python ./.template/gen_project.py --remove-templates
+python ./.templates/gen_project.py --remove-templates
 ```

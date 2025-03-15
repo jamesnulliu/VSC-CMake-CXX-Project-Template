@@ -27,8 +27,6 @@ TEMPLATE_GEN_PATHS = [
     "CMakeLists.txt",
     ".clangd",
     ".clang-format",
-    ".github/workflows/ci-auto-format-and-commit.yml"
-    ".github/workflows/ci-build-and-test.yml",
     "vcpkg.json",
 ]
 
