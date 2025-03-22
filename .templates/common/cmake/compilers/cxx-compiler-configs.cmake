@@ -27,40 +27,49 @@ log_info("CMAKE_CXX_STANDARD: ${CMAKE_CXX_STANDARD}")
 log_info("CMAKE_CXX_SCAN_FOR_MODULES: ${CMAKE_CXX_SCAN_FOR_MODULES}")
 log_info("STACK_SIZE: ${STACK_SIZE}")
 
-# Compiler flags for MSVC
+# MSVC ----------------------------------------------------------------------------------------------------------------
 if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     string(APPEND CMAKE_CXX_FLAGS " /permissive- /Zc:forScope /openmp /Zc:__cplusplus")
-    string(APPEND CMAKE_CXX_FLAGS_RELEASE " /O2")
-    string(APPEND CMAKE_CXX_FLAGS_RELWITHDEBINFO " /O2 /Zi")
-    string(APPEND CMAKE_CXX_FLAGS_DEBUG " /Zi")
-    # Set stack size
     string(APPEND CMAKE_EXE_LINKER_FLAGS " /STACK:${STACK_SIZE}")
-# Compiler flags for Clang
-elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-    string(APPEND CMAKE_CXX_FLAGS " -fopenmp -Wall -Wextra -Werror")
-    string(APPEND CMAKE_CXX_FLAGS_RELEASE " -O3")
-    string(APPEND CMAKE_CXX_FLAGS_RELWITHDEBINFO " /O2 /Zi")
-    string(APPEND CMAKE_CXX_FLAGS_DEBUG " -g")
-    # Set stack size
-    if (WIN32)
-        string(APPEND CMAKE_EXE_LINKER_FLAGS " -Wl,-stack,${STACK_SIZE}")
-    else()
-        string(APPEND CMAKE_EXE_LINKER_FLAGS " -Wl,-zstack-size=${STACK_SIZE}")
-    endif()
-# Compiler flags for GNU
+# GNU -----------------------------------------------------------------------------------------------------------------
 elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     string(APPEND CMAKE_CXX_FLAGS " -fopenmp -Wall -Wextra -Werror")
-    string(APPEND CMAKE_CXX_FLAGS_RELEASE " -O3")
-    string(APPEND CMAKE_CXX_FLAGS_RELWITHDEBINFO " /O2 /Zi")
-    string(APPEND CMAKE_CXX_FLAGS_DEBUG " -g")
-    # Set stack size
     if (WIN32)
         string(APPEND CMAKE_EXE_LINKER_FLAGS " -Wl,--stack,${STACK_SIZE}")
     else()
         string(APPEND CMAKE_EXE_LINKER_FLAGS " -Wl,-zstack-size=${STACK_SIZE}")
     endif()
-# [TODO] @jamesnulliu
-#   Support more compilers
+# Clang ---------------------------------------------------------------------------------------------------------------
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    string(APPEND CMAKE_CXX_FLAGS " -fopenmp -Wall -Wextra -Werror")
+    if (WIN32)
+        string(APPEND CMAKE_EXE_LINKER_FLAGS " -Wl,-stack,${STACK_SIZE}")
+    else()
+        string(APPEND CMAKE_EXE_LINKER_FLAGS " -Wl,-zstack-size=${STACK_SIZE}")
+    endif()
+# ICC/MPICC -----------------------------------------------------------------------------------------------------------
+elseif(CMAKE_CXX_COMPILER_ID MATCHES "Intel")
+    if(CMAKE_CXX_COMPILER MATCHES "mpi")
+        string(APPEND CMAKE_CXX_FLAGS " -Wall")
+    endif()
+    
+    if(WIN32)
+        string(APPEND CMAKE_CXX_FLAGS " /Qopenmp")
+        string(APPEND CMAKE_EXE_LINKER_FLAGS " /STACK:${STACK_SIZE}")
+    else()
+        string(APPEND CMAKE_CXX_FLAGS " -qopenmp -Wall -Werror")
+        string(APPEND CMAKE_EXE_LINKER_FLAGS " -Wl,-zstack-size=${STACK_SIZE}")
+    endif()
+# IntelLLVM / IntelDPCPP ----------------------------------------------------------------------------------------------
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "IntelLLVM" OR CMAKE_CXX_COMPILER_ID STREQUAL "IntelDPCPP")
+    if(WIN32)
+        string(APPEND CMAKE_CXX_FLAGS " /Qopenmp")
+        string(APPEND CMAKE_EXE_LINKER_FLAGS " /STACK:${STACK_SIZE}")
+    else()
+        string(APPEND CMAKE_CXX_FLAGS " -qopenmp -Wall -Werror")
+        string(APPEND CMAKE_EXE_LINKER_FLAGS " -Wl,-zstack-size=${STACK_SIZE}")
+    endif()
+# [TODO] @jamesnulliu: Support more compilers -------------------------------------------------------------------------
 else()
     log_fatal("Unsupported compiler")
 endif()
