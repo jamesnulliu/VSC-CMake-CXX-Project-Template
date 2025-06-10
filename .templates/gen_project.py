@@ -28,6 +28,7 @@ TEMPLATE_GEN_PATHS = [
     "CMakeLists.txt",
     ".clangd",
     ".clang-format",
+    ".vscode",
     "vcpkg.json",
 ]
 
@@ -213,7 +214,7 @@ class ProjectGenerator:
             replace_in_file(".clangd", "<cuda-arch>", get_cuda_arch())
         # c++ exe or c++ lib
         else:
-            remove_lines_in_file(".clangd", get_linenos(".clangd", "---"), -1)
+            remove_lines_in_file(".clangd", get_linenos(".clangd", "---")[-1], -1)
             remove_line_in_file(".clangd", "cuda")
 
     def replace_cxx_api(self):
@@ -268,7 +269,5 @@ def main(args):
 
 
 if __name__ == "__main__":
-    print(get_linenos(".templates/common/.clangd", "---"))
-    exit(1)
     args = parse_arguments()
     main(args)
