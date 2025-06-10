@@ -30,7 +30,7 @@ jobs:
         shell: bash
         run: |
           wget https://apt.llvm.org/llvm.sh && sudo bash ./llvm.sh 21 && rm ./llvm.sh
-          sudo apt-get install clang-format21-
+          sudo apt-get install clang-format-21
           sudo ln -sf $(which clang-format-21) /usr/bin/clang-format
           python -m pip install black
 
