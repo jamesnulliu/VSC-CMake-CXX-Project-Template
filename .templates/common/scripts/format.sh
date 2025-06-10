@@ -40,7 +40,7 @@ if [[ "$FORMAT_PYTHON" == "true" ]]; then
     echo "Formatting Python files..."
     files=$(git ls-files '*.py')
     if [[ -n "$files" ]]; then
-        black --quiet --fast $files
+        black --quiet --fast -l 79 $files
     fi
 fi
 
