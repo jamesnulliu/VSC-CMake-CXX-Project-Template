@@ -43,7 +43,7 @@ TARGET_EXTENSIONS = (
     ".cmake",
 )
 
-MATCH_PATTERN = "_template_project_name_"
+TEMPLATE_PROJECT_NAME = "_template_project_name_"
 
 
 def parse_arguments():
@@ -68,9 +68,7 @@ def parse_arguments():
 
     def validate_project_name(name: str):
         if not name.isidentifier():
-            raise ArgumentTypeError(
-                f"Project name '{name}' must be a valid identifier"
-            )
+            raise ArgumentTypeError(f"Project name '{name}' must be a valid identifier")
         return name
 
     parser.add_argument(
@@ -120,9 +118,7 @@ EOF
         exit 1
     fi
     """
-    result = subprocess.run(
-        ["bash", "-c", cmd], capture_output=True, text=True
-    )
+    result = subprocess.run(["bash", "-c", cmd], capture_output=True, text=True)
     return result.stdout.strip()
 
 
@@ -167,9 +163,7 @@ def remove_lines_in_file(file_path: str, begin_lno: int, end_lno: int):
     with open(file_path, "r") as file:
         lines = file.readlines()
     end_lno = end_lno if end_lno > 0 else len(lines)
-    lines = [
-        l for lno, l in enumerate(lines) if lno < begin_lno or lno >= end_lno
-    ]
+    lines = [l for lno, l in enumerate(lines) if lno < begin_lno or lno >= end_lno]
     with open(file_path, "w") as file:
         for l in lines:
             file.write(l)
@@ -179,8 +173,8 @@ def replace_for_files_in_dir(directory, old, new):
     for root, _, files in Path(directory).walk():
         for file in files:
             if file.endswith(TARGET_EXTENSIONS):
-                file_path = Path(root, file)
-                replace_in_file(file_path, old, new)
+                if file_path := Path(root, file):
+                    replace_in_file(file_path, old, new)
 
 
 class ProjectGenerator:
@@ -190,20 +184,31 @@ class ProjectGenerator:
 
     def run(self):
         shutil.copytree(TEMPLATE_DIR / "common", ".", dirs_exist_ok=True)
-        shutil.copytree(
-            TEMPLATE_DIR / self.project_type, ".", dirs_exist_ok=True
-        )
-        Path("./include", MATCH_PATTERN).rename(
+        shutil.copytree(TEMPLATE_DIR / self.project_type, ".", dirs_exist_ok=True)
+        Path("./include", TEMPLATE_PROJECT_NAME).rename(
             Path("./include", self.project_name)
         )
-        for directory in list(
-            map(Path, ["include", "lib", "test", "src", "cmake"])
-        ):
+        for directory in list(map(Path, ["include", "lib", "test", "src", "cmake"])):
             replace_for_files_in_dir(
-                directory, MATCH_PATTERN, self.project_name
+                directory,
+                TEMPLATE_PROJECT_NAME + "_API",
+                self.project_name.upper() + "_API",
+            )
+            replace_for_files_in_dir(
+                directory,
+                TEMPLATE_PROJECT_NAME + "_EXPORT",
+                self.project_name.upper() + "_EXPORT",
+            )
+            replace_for_files_in_dir(
+                directory,
+                TEMPLATE_PROJECT_NAME + "_IMPORT",
+                self.project_name.upper() + "_IMPORT",
+            )
+            replace_for_files_in_dir(
+                directory, TEMPLATE_PROJECT_NAME, self.project_name
             )
         self.replace_cxx_api()
-        replace_in_file("CMakeLists.txt", MATCH_PATTERN, self.project_name)
+        replace_in_file("CMakeLists.txt", TEMPLATE_PROJECT_NAME, self.project_name)
         # cuda exe or cuda lib
         if self.project_type.startswith("cuda"):
             if not (cuda_home := os.environ.get("CUDA_HOME", None)):
@@ -214,9 +219,7 @@ class ProjectGenerator:
             replace_in_file(".clangd", "<cuda-arch>", get_cuda_arch())
         # c++ exe or c++ lib
         else:
-            remove_lines_in_file(
-                ".clangd", get_linenos(".clangd", "---")[-1], -1
-            )
+            remove_lines_in_file(".clangd", get_linenos(".clangd", "---")[-1], -1)
             remove_line_in_file(".clangd", "cuda")
 
     def replace_cxx_api(self):
@@ -247,9 +250,7 @@ def main(args):
             README_PATH,
         ]
         atexit.register(
-            lambda: [
-                shutil.rmtree(path, ignore_errors=True) for path in to_remove
-            ]
+            lambda: [shutil.rmtree(path, ignore_errors=True) for path in to_remove]
         )
         return
 
