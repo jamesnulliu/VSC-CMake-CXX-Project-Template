@@ -41,7 +41,7 @@ elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     endif()
 # Clang ---------------------------------------------------------------------------------------------------------------
 elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-    string(APPEND CMAKE_CXX_FLAGS " -fopenmp -Wall -Wextra -Werror")
+    string(APPEND CMAKE_CXX_FLAGS " -stdlib=libc++ -fopenmp -Wall -Wextra -Werror")
     if (WIN32)
         string(APPEND CMAKE_EXE_LINKER_FLAGS " -Wl,-stack,${STACK_SIZE}")
     else()
