@@ -34,12 +34,12 @@ jobs:
           sudo apt-get update
           sudo apt-get install clang-format-21
           sudo ln -sf $(which clang-format-21) /usr/bin/clang-format
-          python -m pip install black
+          python -m pip install ruff
 
       - name: Run format script
         shell: bash
         run: |
-          bash ./scripts/format.sh -cxx -py --clang-format-config=.clang-format
+          bash ./scripts/format.sh -cxx -py
       
       - name: Check for Uncommitted Changes
         shell: bash

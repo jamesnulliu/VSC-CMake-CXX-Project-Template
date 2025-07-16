@@ -4,7 +4,6 @@ from pathlib import Path
 import os
 import atexit
 import subprocess
-import re
 
 PROJECT_TYPE = {
     0: "cxx_exe",
@@ -168,11 +167,13 @@ def remove_lines_in_file(file_path: str, begin_lno: int, end_lno: int):
         lines = file.readlines()
     end_lno = end_lno if end_lno > 0 else len(lines)
     lines = [
-        l for lno, l in enumerate(lines) if lno < begin_lno or lno >= end_lno
+        line
+        for lno, line in enumerate(lines)
+        if lno < begin_lno or lno >= end_lno
     ]
     with open(file_path, "w") as file:
-        for l in lines:
-            file.write(l)
+        for line in lines:
+            file.write(line)
 
 
 def replace_for_files_in_dir(directory, old, new):

@@ -16,7 +16,7 @@
     "[cpp]": {
         "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd"
     },
-    "clangd.path": "clangd",  // You may need to change this to clangd-20 etc.
+    "clangd.path": "clangd",
     "clangd.arguments": [
         "--compile-commands-dir=${workspaceFolder}/build",
         "--log=verbose",
@@ -31,7 +31,4 @@
         "--pch-storage=memory",
         "--function-arg-placeholders=false",
     ],
-    "black-formatter.args": [
-        "--line-length=79"
-    ]
 }

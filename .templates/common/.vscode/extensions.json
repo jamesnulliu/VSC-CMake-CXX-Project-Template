@@ -1,11 +1,12 @@
 {
     "recommendations": [
-        "llvm-vs-code-extensions.vscode-clangd",  // clangd
-        "twxs.cmake",  // cmake
+        "llvm-vs-code-extensions.vscode-clangd",
+        "twxs.cmake",
         "josetr.cmake-language-support-vscode",
-        "ms-vscode.cpptools",  // C/C++
-        "ms-python.python",  // Python
-        "ms-python.black-formatter",  // Python formatter
-        "njpwerner.autodocstring",  // Python docstring generator
+        "ms-vscode.cpptools", 
+        "ms-python.python",
+        "njpwerner.autodocstring",
+        "vadimcn.vscode-lldb",
+        "charliermarsh.ruff"
     ]
 }
