@@ -69,7 +69,7 @@ elseif(CMAKE_CXX_COMPILER_ID STREQUAL "IntelLLVM" OR CMAKE_CXX_COMPILER_ID STREQ
         string(APPEND CMAKE_CXX_FLAGS " -qopenmp -Wall -Werror")
         string(APPEND CMAKE_EXE_LINKER_FLAGS " -Wl,-zstack-size=${STACK_SIZE}")
     endif()
-# [TODO] @jamesnulliu: Support more compilers -------------------------------------------------------------------------
+# [TODO|jamesnulliu] Support more compilers ---------------------------------------------------------------------------
 else()
     log_fatal("Unsupported compiler")
 endif()

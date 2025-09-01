@@ -31,20 +31,7 @@ source ~/.bashrc
 
 ### 1.2. Windows with MSVC
 
-If you are using Windows, first install [Visual Studio](https://visualstudio.microsoft.com/), and then choose the `Desktop development with C++` workload. 
-
-After that, open Powershell, install [scoop](https://scoop.sh/) and the following softwares:
-
-```pwsh
-# Allow script execution
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-
-# Install scoop
-Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
-
-# Install softwares
-scoop install cmake ninja git vcpkg
-```
+If you are using Windows, first install [Visual Studio](https://visualstudio.microsoft.com/) **IN DEFAULT INSTALLATION PATH**, and then choose the `Desktop development with C++` workload. 
 
 ### 1.3. Windows with MinGW
 
@@ -94,8 +81,10 @@ bash ./scripts/build.sh
 Or if you are using windows and want to use MSVC deliberately, run the following command in Powershell or CMD:
 
 ```pwsh
-.\scripts\msvc-bash.bat .\scripts\build.sh --prune-env-path
+.\scripts\msvc-bash.bat .\scripts\build.sh
 ```
+
+Use `-h` or `--help` flag to see all available options.
 
 ### 2.4. Reset Project
 
