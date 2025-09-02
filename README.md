@@ -1,5 +1,18 @@
+<!-- omit from toc -->
 # VSC-CMake-CXX-Project-Template
 A Template of Cross-Platform CMake-C++ Project for Visual Studio Code with Github Actions CI/CD.
+
+- [1. Environment Setup](#1-environment-setup)
+  - [1.1. Linux with GCC and Clang](#11-linux-with-gcc-and-clang)
+  - [1.2. Windows with MSVC](#12-windows-with-msvc)
+  - [1.3. Windows with MinGW](#13-windows-with-mingw)
+- [2. How to Use this Template](#2-how-to-use-this-template)
+  - [2.1. Create Your Own Repository](#21-create-your-own-repository)
+  - [2.2 Generate a Project](#22-generate-a-project)
+  - [2.3. Build a Executable or Library](#23-build-a-executable-or-library)
+  - [2.4. Reset Project](#24-reset-project)
+- [5. Remove Template](#5-remove-template)
+
 
 ## 1. Environment Setup
 
@@ -8,21 +21,21 @@ A Template of Cross-Platform CMake-C++ Project for Visual Studio Code with Githu
 Install the following softwares:
 
 ```bash
-export LLVM_VERSION=20
+export LLVM_VERSION=21
 
 apt-get install -y \
     git apt-utils lsb-release software-properties-common gnupg  \
     ninja-build pkg-config build-essential gdb curl wget
   
 cd /usr/local && git clone https://github.com/microsoft/vcpkg.git && \ 
-    cd vcpkg && ./bootstrap-vcpkg.sh  && \
-    wget -O /tmp/kitware-archive.sh \
-        https://apt.kitware.com/kitware-archive.sh && \
-    bash /tmp/kitware-archive.sh && \
-    apt-get update && apt-get install -y cmake && \
-    wget -O /tmp/llvm.sh https://apt.llvm.org/llvm.sh && \
-    chmod +x /tmp/llvm.sh && /tmp/llvm.sh ${LLVM_VERSION} && \
-    apt-get install -y libomp-${LLVM_VERSION}-dev  
+cd vcpkg && ./bootstrap-vcpkg.sh  && \
+wget -O /tmp/kitware-archive.sh \
+    https://apt.kitware.com/kitware-archive.sh && \
+bash /tmp/kitware-archive.sh && \
+apt-get update && apt-get install -y cmake && \
+wget -O /tmp/llvm.sh https://apt.llvm.org/llvm.sh && \
+chmod +x /tmp/llvm.sh && /tmp/llvm.sh ${LLVM_VERSION} && \
+apt-get install -y libomp-${LLVM_VERSION}-dev  
 
 # Add VCPKG_ROOT to environment variables
 echo "export VCPKG_ROOT=/usr/local/vcpkg" >> ~/.bashrc
@@ -32,6 +45,8 @@ source ~/.bashrc
 ### 1.2. Windows with MSVC
 
 If you are using Windows, first install [Visual Studio](https://visualstudio.microsoft.com/) **IN DEFAULT INSTALLATION PATH**, and then choose the `Desktop development with C++` workload. 
+
+vcpkg, CMake and Ninja will be installed automatically by Visual Studio Installer.
 
 ### 1.3. Windows with MinGW
 
