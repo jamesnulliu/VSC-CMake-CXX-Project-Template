@@ -11,7 +11,7 @@
 #         - `STACK_SIZE`: Stack size for the executable. Default: 1048576 (1MB).
 # ==================================================================================================
 
-include(${PROJECT_SOURCE_DIR}/cmake/utils/common.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/../utils/common.cmake)
 
 enable_language(CXX)
 

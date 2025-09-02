@@ -39,7 +39,7 @@ jobs:
         run: |
           bash ./.templates/common/scripts/format.sh -cxx -py  \
             --clang-format-config=./.templates/common/.clang-format \
-            --ruff-config=./.templates/common/.ruff.toml
+            --ruff-config=./.templates/common/ruff.toml
       
       - name: Check for Uncommitted Changes
         shell: bash
