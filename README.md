@@ -21,7 +21,7 @@ A Template of Cross-Platform CMake-C++ Project for Visual Studio Code with Githu
 Install the following softwares:
 
 ```bash
-export LLVM_VERSION=21
+export LLVM_VERSION=20
 
 apt-get install -y \
     git apt-utils lsb-release software-properties-common gnupg  \

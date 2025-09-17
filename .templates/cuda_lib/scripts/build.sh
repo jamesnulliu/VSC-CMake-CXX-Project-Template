@@ -9,7 +9,7 @@ BUILD_TYPE=Release
 CXX_STANDARD=20
 CUDA_STANDARD=20
 BUILD_SHARED_LIBS=OFF
-CMAKE_TOOL_CHAIN_FILE=""
+GENERATOR=Ninja
 
 function print_help() {
     echo "Usage: build.sh [OPTIONS]"
@@ -20,14 +20,18 @@ function print_help() {
     echo "    [optional] Specify the source directory. Default: \"$SOURCE_DIR\""
     echo "  -B, --build-dir <dir-path>"
     echo "    [optional] Specify the build directory. Default: \"$BUILD_DIR\""
+    echo "  -G, --generator <generator-name>"
+    echo "    [optional] Specify the CMake generator. Default: \"$GENERATOR\""
+    echo "  Release|Debug|RelWithDebInfo|RD  (RD=RelWithDebInfo)"
+    echo "    [optional] Specify the build type. Default: \"$BUILD_TYPE\""
     echo "  --stdc++=<version>"
     echo "    [optional] Specify the C++ standard to use. Default: \"$CXX_STANDARD\""
     echo "  --stdcuda=<version>"
     echo "    [optional] Specify the CUDA standard to use. Default: \"$CUDA_STANDARD\""
-    echo "  Release|Debug|RelWithDebInfo|RD  (RD=RelWithDebInfo)"
-    echo "    [optional] Specify the build type. Default: \"$BUILD_TYPE\""
     echo "  --shared"
     echo "    [optional] Build shared libraries. Default: \"$BUILD_SHARED_LIBS\""
+    echo "  --rm-build-dir"
+    echo "    [optional] Remove the build directory before building"
 }
 
 while [[ $# -gt 0 ]]; do
@@ -36,6 +40,8 @@ while [[ $# -gt 0 ]]; do
             SOURCE_DIR=$2; shift ;;
         -B|--build-dir)
             BUILD_DIR=$2; shift ;;
+        -G|--generator)
+            GENERATOR=$2; shift ;;
         Release|Debug|RelWithDebInfo|RD)
             BUILD_TYPE=${1/RD/RelWithDebInfo} ;;
         --stdc++=*)
@@ -49,14 +55,14 @@ while [[ $# -gt 0 ]]; do
         -h|--help)
             print_help; exit 0 ;;
         *)
-            echo "[build.sh] ERROR: Unknown argument: $1"
+            echo "[build.sh][ERROR] Unknown argument: $1"
             print_help; exit 1 ;;
     esac
     shift
 done
 
 # Prune PATH for Windows
-source ./scripts/windows-prune-PATH.sh
+if [[ "$OSTYPE" == "msys" ]]; then source ./scripts/windows-prune-PATH.sh; fi
 
 # Check if stdout is terminal -> enable/disable colored output
 if [ -t 1 ]; then 
@@ -65,6 +71,7 @@ else
     STDOUT_IS_TERMINAL=OFF; export GTEST_COLOR=no
 fi
 
+CMAKE_TOOL_CHAIN_FILE=""
 # Check and set CMAKE_TOOL_CHAIN_FILE to vcpkg.cmake
 if [ -f "$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" ]; then
     CMAKE_TOOL_CHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake"
@@ -77,7 +84,7 @@ else
     exit 1
 fi
 
-cmake -G Ninja -S $SOURCE_DIR -B $BUILD_DIR \
+cmake -G $GENERATOR -S $SOURCE_DIR -B $BUILD_DIR \
     -DCMAKE_TOOLCHAIN_FILE="$CMAKE_TOOL_CHAIN_FILE" \
     -DSTDOUT_IS_TERMINAL=$STDOUT_IS_TERMINAL \
     -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
